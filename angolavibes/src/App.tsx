@@ -5,6 +5,7 @@ import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
+  let [nome, setNome] = useState('')
 
   return (
     <>
@@ -20,6 +21,10 @@ function App() {
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
+        </button>
+        <input type='text' placeholder='nome' value={nome} onChange={(e)=>setNome(e.target.value)}></input>
+        <button onClick={()=> alert(nome)}>
+          mostrar nome
         </button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
