@@ -26,10 +26,11 @@ const InputBuscar: React.FC<InputBuscarProps> = ({
       onKeyDown={handleKeyDown}
       placeholder={placeholder}
       style={{
-        padding: "8px",
-        borderRadius: "4px",
-        border: "1px solid #ccc",
-        outline: "none"
+        padding: "15px 0px 15px 0px",
+        borderRadius: "7px",
+        border: "3px solid #8b8b8b",
+        width: '400px',
+    
       }}
     />
   );
