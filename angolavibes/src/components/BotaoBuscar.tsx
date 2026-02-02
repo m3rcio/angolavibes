@@ -14,6 +14,8 @@ const BotaoBuscar: React.FC<BotaoBuscarProps>=({onBuscar,loading})=>{
       style={{
         padding: "8px 16px",
         cursor: loading ? "not-allowed" : "pointer",
+        backgroundColor:"#f73b3b",
+        color:'#fff'
       }}
     >
       {loading ? "Buscando..." : "Buscar"}

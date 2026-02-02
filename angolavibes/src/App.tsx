@@ -3,11 +3,15 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import BotaoBuscar from './components/BotaoBuscar'
+import InputBuscar from './components/InputBuscar'
 
 function App() {
-  const [count, setCount] = useState(0)
-  let [nome, setNome] = useState('')
 
+  let [nome, setNome] = useState('')
+  let [texto,setTexto]= useState('')
+    function handleBuscar() {
+    console.log("Buscar por:", texto);
+  }
   return (
     <>
       <div>
@@ -20,18 +24,12 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
+
         <input type='text' placeholder='nome' value={nome} onChange={(e)=>setNome(e.target.value)}></input>
         <BotaoBuscar onBuscar={() => alert(nome)} />
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+        <InputBuscar value={texto} onChange={setTexto} onBuscar={handleBuscar}/> 
+       
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
