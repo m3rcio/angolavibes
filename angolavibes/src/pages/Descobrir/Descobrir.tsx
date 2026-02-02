@@ -9,7 +9,7 @@ import InputBuscar from '../../components/InputBuscar';
     console.log("Buscar por:", texto);
   }
     return(
-         <div className="card">
+         <div>
 
         <BotaoBuscar onBuscar={handleBuscar} />
         <InputBuscar value={texto} onChange={setTexto} onBuscar={handleBuscar}/> 
