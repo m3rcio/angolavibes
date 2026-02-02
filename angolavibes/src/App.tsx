@@ -1,25 +1,18 @@
-import { useState } from 'react'
 import './App.css'
-import BotaoBuscar from './components/BotaoBuscar'
-import InputBuscar from './components/InputBuscar'
 import Navbar from './components/Navbar/Navbar'
+import { Route, Routes } from 'react-router-dom'
+import Login from './pages/Login'
+import Descobrir from './pages/Descobrir/Descobrir'
 
 function App() {
-
-  let [nome, setNome] = useState('')
-  let [texto,setTexto]= useState('')
-    function handleBuscar() {
-    console.log("Buscar por:", texto);
-  }
   return (
     <>
     <Navbar></Navbar>
-      <div className="card">
-
-        <BotaoBuscar onBuscar={() => alert(nome)} />
-        <InputBuscar value={texto} onChange={setTexto} onBuscar={handleBuscar}/> 
-       
-      </div>
+      <Routes>
+        <Route path="/" element={<Descobrir/>} /> 
+        <Route path="/login" element={<Login />} />
+      </Routes>
+     
     </>
   )
 }
