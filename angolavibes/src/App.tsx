@@ -2,6 +2,7 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import BotaoBuscar from './components/BotaoBuscar'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -23,9 +24,7 @@ function App() {
           count is {count}
         </button>
         <input type='text' placeholder='nome' value={nome} onChange={(e)=>setNome(e.target.value)}></input>
-        <button onClick={()=> alert(nome)}>
-          mostrar nome
-        </button>
+        <BotaoBuscar onBuscar={() => alert(nome)} />
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
