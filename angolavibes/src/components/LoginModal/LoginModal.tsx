@@ -8,23 +8,52 @@ type LoginModalProps = {
 export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
   if (!isOpen) return null;
 
-  return (
+   return (
     <div className="modal-backdrop" onClick={onClose}>
       <div
-        className="modal"
+        className="login-modal"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2>Login</h2>
+        <h1>Entrar</h1>
+        <p className="login-text">
+          Por continuar, você concorda com nossos{" "}
+          <a href="#">Termos de Serviço</a> e reconhece nossa{" "}
+          <a href="#">Política de Privacidade</a>.
+        </p>
 
-        <input type="email" placeholder="Email" />
-        <input type="password" placeholder="Senha" />
+        <button className="social-btn google">
+          <span className="icon">G</span>
+          Continuar com Google
+        </button>
 
-        <div className="modal-actions">
-          <button type="button" onClick={onClose}>
-            Cancelar
-          </button>
-          <button type="button">Entrar</button>
-        </div>
+        <button className="social-btn facebook">
+          <span className="icon">f</span>
+          Continuar com Facebook
+        </button>
+
+        <div className="divider">----- ou -----</div>
+
+        <input
+          type="email"
+          placeholder="Email"
+          className="login-input"
+        />
+
+        <input
+          type="password"
+          placeholder="Senha"
+          className="login-input"
+        />
+
+        <button className="btn-entrar">Entrar</button>
+
+        <a href="#" className="login-link">
+          Entre com link por email
+        </a>
+
+        <p className="signup-text">
+          Ainda não tem conta? <a href="#">Cadastre-se</a>
+        </p>
       </div>
     </div>
   );
