@@ -1,7 +1,11 @@
 import "./Navbar.css";
 
+type NavbarProps = {
+  onLoginClick: () => void;
+};
 
-export default function Navbar(){
+export default function Navbar({onLoginClick}:NavbarProps){
+
     return(
            <nav className="navbar">
       {/* Logo */}
@@ -18,7 +22,7 @@ export default function Navbar(){
 
       {/* Ações */}
       <div className="navbar-actions">
-        <button className="btn-login">Login</button>
+        <button type="button"className="btn-login" onClick={onLoginClick}>Login</button>
         <button className="btn-signup">Sign Up</button>
       </div>
     </nav>

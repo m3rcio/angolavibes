@@ -20,8 +20,10 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
         <input type="password" placeholder="Senha" />
 
         <div className="modal-actions">
-          <button onClick={onClose}>Cancelar</button>
-          <button className="btn-primary">Entrar</button>
+          <button type="button" onClick={onClose}>
+            Cancelar
+          </button>
+          <button type="button">Entrar</button>
         </div>
       </div>
     </div>
