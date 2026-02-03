@@ -5,7 +5,7 @@ import Login from './pages/Login'
 import Descobrir from './pages/Descobrir/Descobrir'
 import { useState } from 'react'
 import LoginModal from './components/LoginModal/LoginModal'
-import SignupModal from './components/SignupModal/Signup'
+import SignupModal from './components/SignupModal/SignupModal'
 
 function App() {
   const [loginOpen,setLoginOpen]=useState(false);
