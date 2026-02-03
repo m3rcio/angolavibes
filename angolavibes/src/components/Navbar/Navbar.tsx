@@ -2,9 +2,10 @@ import "./Navbar.css";
 
 type NavbarProps = {
   onLoginClick: () => void;
+  onSignupClick: () => void;
 };
 
-export default function Navbar({onLoginClick}:NavbarProps){
+export default function Navbar({onLoginClick,onSignupClick}:NavbarProps){
 
     return(
            <nav className="navbar">
@@ -23,7 +24,7 @@ export default function Navbar({onLoginClick}:NavbarProps){
       {/* Ações */}
       <div className="navbar-actions">
         <button type="button"className="btn-login" onClick={onLoginClick}>Login</button>
-        <button className="btn-signup">Sign Up</button>
+        <button className="btn-signup" onClick={onSignupClick}>Sign Up</button>
       </div>
     </nav>
     )
