@@ -4,7 +4,8 @@
   justify-content: space-between;
   padding: 16px 32px;
   border-bottom: 1px solid #eee;
-  background: #fff;
+  background: #ee2929;
+  color: white;
   margin-top: 0;
   position: absolute;
   top: 0;
@@ -28,7 +29,7 @@
 }
 
 .navbar-links a:hover {
-  color: #007bff;
+  color: #f0d807;
 }
 
 .navbar-actions {
@@ -44,7 +45,7 @@
 }
 
 .btn-signup {
-  background: #007bff;
+  background: #eb1f1f;
   color: #fff;
   border: none;
   padding: 8px 14px;
@@ -52,6 +53,11 @@
   cursor: pointer;
 }
 
+.btn-login:hover{
+  color: #f0d807;
+}
+
 .btn-signup:hover {
-  background: #0056b3;
+  background: #faf621;
+  color: #333;
 }
