@@ -6,12 +6,15 @@ import './index.css'
 import App from './App.tsx'
 import React from 'react';
 import { GoogleOAuthProvider } from "@react-oauth/google";
+const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+console.log(googleClientId)
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   
   <React.StrictMode>
     <BrowserRouter>
-       <GoogleOAuthProvider clientId="SEU_GOOGLE_CLIENT_ID">
+       <GoogleOAuthProvider clientId={googleClientId}>
+        <button onClick={()=>console.log(googleClientId)}>ok</button>
     <App />
   </GoogleOAuthProvider>
     </BrowserRouter>

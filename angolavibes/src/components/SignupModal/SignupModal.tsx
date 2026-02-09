@@ -1,5 +1,7 @@
 import { useState } from "react";
 import "./SignupModal.css";
+import { GoogleLogin } from "@react-oauth/google";
+import { handleGoogleLogin } from "../../hooks/handleGoogleLogin";
 
 type SignupModalProps = {
   isOpen: boolean;
@@ -72,10 +74,18 @@ const [error,setError]=useState("");
           <a href="#">Política de Privacidade</a>.
         </p>
 
-        <button className="social-btn google">
+        {/* <button className="social-btn google">
           <span className="icon">G</span>
           Continuar com Google
-        </button>
+        </button> */}
+        <GoogleLogin
+  onSuccess={credentialResponse => {
+    handleGoogleLogin(credentialResponse.credential);
+  }}
+  onError={() => {
+    console.log("Login Google falhou");
+  }}
+/>
 
         <button className="social-btn facebook">
           <span className="icon">f</span>
