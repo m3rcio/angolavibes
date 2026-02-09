@@ -15,7 +15,6 @@ const [senha,setSenha]=useState("");
 const [loading,setLoading]=useState(false);
 const [error,setError]=useState("");
   
-  
   async function handleSignup() {
     setError("");
 
@@ -46,7 +45,7 @@ const [error,setError]=useState("");
         return;
       }
 
-      alert("Conta criada com sucesso");
+      alert("Conta criada com sucesso!");
       
     } catch (err) {
       setError("Erro de conexão com o servidor");
@@ -111,7 +110,6 @@ const [error,setError]=useState("");
 
         <button className="btn-criar" onClick={handleSignup}
         disabled={loading}>{loading ? "Criando..." : "Criar conta"}</button>
-        
         <p className="login-redirect">
           Já tem conta? <a href="#">Entrar</a>
         </p>

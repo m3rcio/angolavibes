@@ -17,7 +17,7 @@ export async function signup(req: Request,res:Response){
             "SELECT id from usuarios where email=?",[email]
         );
 
-        if(rows-length>0){
+        if(rows.length>0){
             return res.status(409).json({ message: "Email já registrado" });
         }
 
