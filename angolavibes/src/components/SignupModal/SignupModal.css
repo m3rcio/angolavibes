@@ -79,6 +79,9 @@
   color: #999;
 }
 
+.error-text{
+  color: green;
+}
 .btn-criar {
   background: red;
   color: white;

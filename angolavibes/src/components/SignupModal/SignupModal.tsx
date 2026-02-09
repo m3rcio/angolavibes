@@ -19,7 +19,7 @@ const [error,setError]=useState("");
     setError("");
 
     if (!nome || !email || !senha) {
-      setError("Preencha todos os campos");
+      setError("Preencha todos os campos!");
       return;
     }
 
@@ -46,7 +46,10 @@ const [error,setError]=useState("");
       }
 
       alert("Conta criada com sucesso!");
-      
+      setError("Conta criada com sucesso!");
+      setNome("");
+      setEmail("");
+      setSenha("");
     } catch (err) {
       setError("Erro de conexão com o servidor");
     } finally {
