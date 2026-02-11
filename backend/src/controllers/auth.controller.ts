@@ -50,21 +50,36 @@ export async function login(req:Request,res:Response){
     }
 
     try{
-        const[rows]:any=await db.query(
-            "SELECT from usuarios where email=? and senha=?",[email,senha]
-        );
+    const [rows]: any = await db.query(
+      "SELECT * FROM usuarios WHERE email = ?",
+      [email]
+    );
 
-        if(rows.length>0){
-            return res.status(409).json({ message: "Email já registrado" });
-        }
+    if (!rows || rows.length === 0) {
+      return res.status(401).json({ message: "Credenciais inválidas" });
+    }
 
-    //      await db.query(
-    //   `INSERT INTO usuarios (nome, email, senha, tipo)
-    //    VALUES (?, ?, ?, ?)`,
-    //   [nome, email, senhaHash, tipo || "usuario"]
-    // );
+    const user = rows[0];
 
-    return res.status(201).json({message: "Login feito com sucesso"});
+    const passwordMatch = await bcrypt.compare(senha, user.senha);
+    if (!passwordMatch) {
+      return res.status(401).json({ message: "Credenciais inválidas" });
+    }
+
+    const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET!, {
+      expiresIn: "7d",
+    });
+
+    return res.json({
+      token,
+      user: {
+        id: user.id,
+        nome: user.nome,
+        email: user.email,
+        tipo: user.tipo,
+        foto: user.foto,
+      },
+    });
     }catch(error){}
 }
 
