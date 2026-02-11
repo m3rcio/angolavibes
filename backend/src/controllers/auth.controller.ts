@@ -56,7 +56,7 @@ export async function login(req:Request,res:Response){
     );
 
     if (!rows || rows.length === 0) {
-      return res.status(401).json({ message: "Credenciais inválidas" });
+      return res.status(401).json({ message: "Usuário não encontrado" });
     }
 
     const user = rows[0];
