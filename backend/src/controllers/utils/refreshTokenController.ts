@@ -9,10 +9,14 @@ export async function refreshTokenController(req:Request,res:Response){
     if(!refreshToken) return res.status(401).json({message:"Token de atualização não fornecido"});
 
     try{
-        const payload=jwt.verify(refreshToken, process.env.JWT_SECRET!) ;
+          const payload = jwt.verify(
+      refreshToken,
+      process.env.JWT_REFRESH_SECRET as string
+    ) as any;
 
-        const user:any=await db.query("select * from usuarios where id=?",[payload]);
-
+        const [rows]:any=await db.query("select * from usuarios where id=?",[payload.id]);
+        const user=rows[0];
+        
         if(!user || user.refreshToken !== refreshToken){
             return res.status(403).json({message:"Refresh token inválido"});
         }
