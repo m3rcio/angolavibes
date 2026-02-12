@@ -34,8 +34,12 @@ export function authenticateToken(req: AuthRequest, res: Response, next: NextFun
     const payload = jwt.verify(token, secret) as JwtPayload;
     req.user = { id: payload.id, email: payload.email, iat: payload.iat, exp: payload.exp };
     return next();
-  } catch (err) {
-    return res.status(401).json({ message: "Token inválido ou expirado" });
+  } catch (err:any) {
+    if(err.name==="TokenExpiredError"){
+        return res.status(401).json({ message: "Token expirado" });
+    }
+
+    return res.status(403).json({ message: "Token inválido" });
   }
 }
 
