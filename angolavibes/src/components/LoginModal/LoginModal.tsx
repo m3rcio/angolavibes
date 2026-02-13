@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "./LoginModal.css";
 import { GoogleLogin } from "@react-oauth/google";
 import { handleGoogleLogin } from "../../hooks/handleGoogleLogin";
+import { AuthContext } from "../../context/AuthContext";
 
 type LoginModalProps = {
   isOpen: boolean;
@@ -9,6 +10,7 @@ type LoginModalProps = {
 };
 
 export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
+  const { login } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [loading, setLoading] = useState(false);
@@ -100,7 +102,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
 
         {error && <p className="error-text">{error}</p>}
 
-        <button className="btn-entrar" onClick={handleLogin} disabled={loading}>
+        <button className="btn-entrar" onClick={()=>login(email,senha)} disabled={loading}>
           {loading ? "Entrando..." : "Entrar"}
         </button>
 

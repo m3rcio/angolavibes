@@ -6,10 +6,15 @@ export const AuthContext = createContext<any>(null);
 export const AuthProvider = ({children}:any)=>{
   const [user,setUser] = useState(null);
 
-  const login = async (email:string,password:string)=>{
-    const res = await api.post("/auth/login",{email,password});
+  const login = async (email:string,senha:string)=>{
+    
+    try{const res = await api.post("http://localhost:5000/api/auth/login",{email,senha});
     setAccessToken(res.data.accessToken);
     setUser(res.data.user);
+    alert("Login realizado com sucesso!");
+  }catch(err:any){
+      console.log(err.response?.data);
+    }
   };
 
   const logout = async ()=>{
