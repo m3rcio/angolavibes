@@ -29,13 +29,15 @@ export async function signup(req: Request,res:Response){
 
         const senhaHash = await bcrypt.hash(senha, 10);
 
-         await db.query(
+      const [user]:any=  await db.query(
       `INSERT INTO usuarios (nome, email, senha, tipo)
        VALUES (?, ?, ?, ?)`,
       [nome, email, senhaHash, tipo || "usuario"]
     );
 
-    return res.status(201).json({message: "Usuário criado com sucesso"});
+    const accessToken= generateAccessToken(user);
+    generateRefreshToken(user);
+    return res.status(201).json({message: "Usuário criado com sucesso", accessToken,user});
 
     }catch(error){
         console.error(error);

@@ -11,6 +11,20 @@ export const AuthProvider = ({children}:any)=>{
     try{const res = await api.post("http://localhost:5000/api/auth/login",{email,senha});
     setAccessToken(res.data.accessToken);
     setUser(res.data.user);
+    console.log(res.data);
+    alert("Login realizado com sucesso!");
+  }catch(err:any){
+      console.log(err.response?.data);
+    }
+  };
+
+   const signup = async (nome:string,email:string,senha:string)=>{ 
+    
+    try{
+      const res = await api.post("http://localhost:5000/api/auth/signup",{nome,email,senha});
+    setAccessToken(res.data.accessToken);
+    setUser(res.data.user);
+    console.log(res.data);
     alert("Login realizado com sucesso!");
   }catch(err:any){
       console.log(err.response?.data);
