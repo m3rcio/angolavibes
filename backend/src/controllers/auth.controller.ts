@@ -69,11 +69,12 @@ export async function login(req:Request,res:Response){
 
     
   const accessToken = generateAccessToken(user);
-  const refreshToken = generateRefreshToken(user);
+  generateRefreshToken(user);
+
+
 
     return res.json({
       accessToken,
-      refreshToken,
       user: {
         id: user.id,
         nome: user.nome,
@@ -81,7 +82,7 @@ export async function login(req:Request,res:Response){
         tipo: user.tipo,
         foto: user.foto,
       },
-    });
+    }); 
     }catch(error){
       console.error(error);
       return res.status(500).json({message:"Erro interno do servidor"});
