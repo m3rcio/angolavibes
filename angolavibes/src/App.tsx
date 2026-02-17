@@ -25,9 +25,13 @@ function App() {
   function closeSignup() {
     setSignupOpen(false);
   }
+
+  function onLogoutClick() {
+    
+  }
   return (
     <>
-    <Navbar onLoginClick={onLoginClick} onSignupClick={onSignupClick}></Navbar>
+    <Navbar onLoginClick={onLoginClick} onSignupClick={onSignupClick} onLogoutClick={onLogoutClick}></Navbar>
       <Routes>
         <Route path="/" element={<Descobrir/>} /> 
         <Route path="/login" element={<Login />} />

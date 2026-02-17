@@ -1,3 +1,4 @@
+import { useAuth } from "../../context/AuthContext";
 import "./Navbar.css";
 
 type NavbarProps = {
@@ -6,28 +7,52 @@ type NavbarProps = {
   onLogoutClick: ()=> void;
 };
 
-export default function Navbar({onLoginClick,onSignupClick,onLogoutClick}:NavbarProps){
+
+export default function Navbar({onLoginClick,onSignupClick}:NavbarProps){
+
+const {user,logout} = useAuth();
 
     return(
-           <nav className="navbar">
-      {/* Logo */}
-      <div className="navbar-logo">
+      <nav className="navbar">
+          {user ? (
+            <>
+            <div className="navbar-logo">
         <span>MeuApp</span>
       </div>
 
-      {/* Links */}
       <ul className="navbar-links">
         <li><a href="#">Descobrir</a></li>
         <li><a href="#">Avaliar</a></li>
         <li><a href="#">Mais</a></li>
       </ul>
 
-      {/* Ações */}
+      
       <div className="navbar-actions">
         <button type="button"className="btn-login" onClick={onLoginClick}>Login</button>
         <button className="btn-signup" onClick={onSignupClick}>Sign Up</button>
-        <button className="btn-signup" onClick={onLogoutClick}>Logout</button>
+        <button className="btn-signup" onClick={logout}>Logout</button>
       </div>
-    </nav>
+    
+     
+    </>
+  ) : ( 
+    <>
+    
+       <div className="navbar-logo">
+        <span>MeuApp</span>
+      </div>
+
+      <ul className="navbar-links">
+        <li><a href="#">Descobrir</a></li>
+        <li><a href="#">Avaliar</a></li>
+        <li><a href="#">Mais</a></li>
+      </ul>
+
+     
+      <div className="navbar-actions">
+        <button type="button"className="btn-login" onClick={onLoginClick}>Login</button>
+        <button className="btn-signup" onClick={onSignupClick}>Sign Up</button>
+      </div>
+    </>)} </nav>
     )
 }

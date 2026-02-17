@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import api, { setAccessToken } from "../services/api";
 
 export const AuthContext = createContext<any>(null);
@@ -44,4 +44,9 @@ export const AuthProvider = ({children}:any)=>{
   );
 };
 
+export function useAuth(){
+  const context= useContext(AuthContext);
+   if (!context) throw new Error("useAuth must be used inside AuthProvider");
+  return context;
+}
 
