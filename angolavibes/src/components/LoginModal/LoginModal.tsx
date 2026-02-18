@@ -3,6 +3,7 @@ import "./LoginModal.css";
 import { GoogleLogin } from "@react-oauth/google";
 import { handleGoogleLogin } from "../../hooks/handleGoogleLogin";
 import { AuthContext } from "../../context/AuthContext";
+import api from "../../services/api";
 
 type LoginModalProps = {
   isOpen: boolean;
@@ -18,44 +19,30 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
 
   if (!isOpen) return null;
 
-  async function handleLogin() {
-    setError("");
-
-    if (!email || !senha) {
-      setError("Preencha todos os campos!");
-      return;
-    }
-
-    setLoading(true);
+const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, senha }),
-      });
+      // chamada ao backend
+      const response = await api.post("http://localhost:5000/api/auth/login",{ email, senha });
 
-      const data = await response.json();
 
-      if (!response.ok) {
-        setError(data.message || "Erro ao fazer login");
-        return;
-      }
+      if (response.status !== 200) throw new Error(response.data.message);
 
-      if (data.token) {
-        localStorage.setItem("token", data.token);
-      }
+      // salva usuário no contexto
+      login({ nome: response.data.user.nome });
 
-      alert("Login realizado com sucesso!");
+      // 🔥 LIMPAR CAMPOS
       setEmail("");
       setSenha("");
-      onClose();
+
+      // opcional: fechar modal
+      // closeModal()
+
     } catch (err) {
-      setError("Erro de conexão com o servidor");
-    } finally {
-      setLoading(false);
+      console.error(err);
     }
-  }
+  };
 
    return (
     <div className="modal-backdrop" onClick={onClose}>
@@ -102,7 +89,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
 
         {error && <p className="error-text">{error}</p>}
 
-        <button className="btn-entrar" onClick={()=>login(email,senha)} disabled={loading}>
+        <button className="btn-entrar" onClick={handleLogin} disabled={loading}>
           {loading ? "Entrando..." : "Entrar"}
         </button>
 

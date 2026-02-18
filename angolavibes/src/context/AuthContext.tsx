@@ -12,6 +12,7 @@ export const AuthProvider = ({children}:any)=>{
     setAccessToken(res.data.accessToken);
     setUser(res.data.user);
     console.log(res.data);
+  
     alert("Login realizado com sucesso!");
   }catch(err:any){
       console.log(err.response?.data);
