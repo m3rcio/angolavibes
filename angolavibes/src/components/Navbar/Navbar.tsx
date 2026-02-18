@@ -17,7 +17,7 @@ const {user,logout} = useAuth();
           {user ? (
             <>
             <div className="navbar-logo">
-        <span>MeuApp</span>
+        <span>Angolavibes</span>
       </div>
 
       <ul className="navbar-links">
@@ -39,7 +39,7 @@ const {user,logout} = useAuth();
     <>
     
        <div className="navbar-logo">
-        <span>MeuApp</span>
+        <span>Angolavibes</span>
       </div>
 
       <ul className="navbar-links">

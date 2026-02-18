@@ -34,7 +34,6 @@ function App() {
     <Navbar onLoginClick={onLoginClick} onSignupClick={onSignupClick} onLogoutClick={onLogoutClick}></Navbar>
       <Routes>
         <Route path="/" element={<Descobrir/>} /> 
-        <Route path="/login" element={<Login />} />
       </Routes>
       <LoginModal
         isOpen={loginOpen}
