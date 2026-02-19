@@ -27,10 +27,10 @@ const InputBuscar: React.FC<InputBuscarProps> = ({
       placeholder={placeholder}
       style={{
         padding: "15px 0px 15px 0px",
-        borderRadius: "7px",
+        borderRadius: "32px",
         border: "3px solid #8b8b8b",
         width: '400px',
-    
+        zIndex: 1000
       }}
     />
   );

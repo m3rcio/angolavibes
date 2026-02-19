@@ -17,6 +17,8 @@ const BotaoBuscar: React.FC<BotaoBuscarProps>=({onBuscar,loading})=>{
         backgroundColor:"#f73b3b",
         color:'#fff', 
         marginTop:'250px',
+        borderRadius:'32px',
+        zIndex: 1000
       }}
     >
       {loading ? "Buscando..." : "Buscar"}

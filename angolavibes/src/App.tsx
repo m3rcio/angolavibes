@@ -1,7 +1,6 @@
 import './App.css'
 import Navbar from './components/Navbar/Navbar'
 import { Route, Routes } from 'react-router-dom'
-import Login from './pages/Login'
 import Descobrir from './pages/Descobrir/Descobrir'
 import { useState } from 'react'
 import LoginModal from './components/LoginModal/LoginModal'
@@ -35,6 +34,13 @@ function App() {
       <Routes>
         <Route path="/" element={<Descobrir/>} /> 
       </Routes>
+       <section className="hero">
+    <h1>Título</h1>
+        </section>
+
+        <section className="content">
+    conteúdo da página
+        </section>
       <LoginModal
         isOpen={loginOpen}
         onClose={closeLogin}

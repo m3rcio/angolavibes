@@ -5,3 +5,21 @@
 }
 
 
+.hero {
+  height: 100vh; 
+  
+  background-image: url("assets/restaurant.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  background: white;
+  min-height: 100vh;
+  padding: 40px;
+}
