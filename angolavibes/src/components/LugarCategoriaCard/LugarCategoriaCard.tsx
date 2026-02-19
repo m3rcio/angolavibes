@@ -1,6 +1,6 @@
 import React from "react";
 import "./LugarCategoriaCard.css";
-import { LugarCategoria } from "../../models/LugarCategoria";
+import type { LugarCategoria } from "../../models/LugarCategoria";
 
 
 type LugarCategoriaCardProps = {
@@ -10,7 +10,7 @@ type LugarCategoriaCardProps = {
 export function LugarCategoriaCard({categoria: LugarCategoriaCardProps}: LugarCategoriaCardProps) {
     return (
       <div className="lugar-categoria-card">
-        <img src={LugarCategoriaCardProps.foto} alt={LugarCategoriaCardProps.titulo} />
+        <img src={LugarCategoriaCardProps.imagem} alt={LugarCategoriaCardProps.titulo} />
         <h3>{LugarCategoriaCardProps.titulo}</h3>
       </div>
     );
