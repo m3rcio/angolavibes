@@ -23,19 +23,13 @@ const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      // chamada ao backend
-      const response = await api.post("http://localhost:5000/api/auth/login",{ email, senha });
 
-
-      if (response.status !== 200) throw new Error(response.data.message);
-
-      // salva usuário no contexto
-      login({ nome: response.data.user.nome });
+      await login( email,senha);
 
       // 🔥 LIMPAR CAMPOS
       setEmail("");
       setSenha("");
-
+       onClose();
       // opcional: fechar modal
       // closeModal()
 

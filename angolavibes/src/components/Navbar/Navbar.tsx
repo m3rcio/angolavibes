@@ -28,7 +28,6 @@ const {user,logout} = useAuth();
 
       
       <div className="navbar-actions">
-        <button type="button"className="btn-login" onClick={onLoginClick}>Login</button>
         <button className="btn-signup" onClick={onSignupClick}>Sign Up</button>
         <button className="btn-signup" onClick={logout}>Logout</button>
       </div>
