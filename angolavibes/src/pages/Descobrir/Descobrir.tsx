@@ -11,7 +11,7 @@ import InputBuscar from '../../components/InputBuscar';
     return(
          <div>
 
-        <BotaoBuscar onBuscar={handleBuscar} />
+        <BotaoBuscar onBuscar={handleBuscar}/>
         <InputBuscar value={texto} onChange={setTexto} onBuscar={handleBuscar}/> 
        
       </div>

@@ -12,10 +12,11 @@ const BotaoBuscar: React.FC<BotaoBuscarProps>=({onBuscar,loading})=>{
       onClick={onBuscar}
       disabled={loading}
       style={{
-        padding: "8px 16px",
+        padding: "13px 16px",
         cursor: loading ? "not-allowed" : "pointer",
         backgroundColor:"#f73b3b",
-        color:'#fff'
+        color:'#fff', 
+        marginTop:'250px',
       }}
     >
       {loading ? "Buscando..." : "Buscar"}
