@@ -19,20 +19,20 @@ const InputBuscar: React.FC<InputBuscarProps> = ({
     }
   }
   return (
-    <input
-      type="text"
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      onKeyDown={handleKeyDown}
-      placeholder={placeholder}
-      style={{
-        padding: "15px 0px 15px 0px",
-        borderRadius: "32px",
-        border: "1px solid #8b8b8b",
-        width: '400px',
-        zIndex: 1000
-      }}
-    />
+   <input
+  type="text"
+  value={value}
+  onChange={(e) => onChange(e.target.value)}
+  onKeyDown={handleKeyDown}
+  placeholder={placeholder}
+  style={{
+    padding: "15px 120px 15px 20px", // espaço para o botão à direita
+    borderRadius: "32px",
+    border: "2px solid #8b8b8b",
+    width: "100%"
+  }}
+/>
+
   );
 };
 

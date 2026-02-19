@@ -9,12 +9,12 @@ import InputBuscar from '../../components/InputBuscar';
     console.log("Buscar por:", texto);
   }
     return(
-         <div className='descobrir-div'>
-
-        <BotaoBuscar onBuscar={handleBuscar}/>
-        <InputBuscar value={texto} onChange={setTexto} onBuscar={handleBuscar}/> 
-       
-      </div>
+         <div className="descobrir-div">
+  <div className="input-wrapper">
+    <InputBuscar value={texto} onChange={setTexto} onBuscar={handleBuscar} />
+    <BotaoBuscar onBuscar={handleBuscar} />
+  </div>
+</div>
     )
  }
  

@@ -7,22 +7,26 @@ type BotaoBuscarProps={
 
 const BotaoBuscar: React.FC<BotaoBuscarProps>=({onBuscar,loading})=>{
     return(
-         <button
-      type="button"
-      onClick={onBuscar}
-      disabled={loading}
-      style={{
-        padding: "13px 16px",
-        cursor: loading ? "not-allowed" : "pointer",
-        backgroundColor:"#f73b3b",
-        color:'#fff', 
-        marginTop:'100px',
-        borderRadius:'32px',
-        zIndex: 1000
-      }}
-    >
-      {loading ? "Buscando..." : "Buscar"}
-    </button>
+<button
+  type="button"
+  onClick={onBuscar}
+  disabled={loading}
+  style={{
+    position: "absolute",
+    top: "50%",
+    right: "6px",
+    transform: "translateY(-50%)",
+    padding: "10px 18px",
+    cursor: loading ? "not-allowed" : "pointer",
+    backgroundColor: "#f73b3b",
+    color: "#880505",
+    borderRadius: "32px",
+    border: "#880505 solid 1px",
+  }}
+>
+  {loading ? "Buscando..." : "Buscar"}
+</button>
+
     );
 };
 

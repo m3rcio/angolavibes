@@ -1,3 +1,8 @@
 .descobrir-div{
     z-index: 1000;
 }
+
+.input-wrapper {
+  position: relative;
+  width: 400px; /* mesma largura do input */
+}
