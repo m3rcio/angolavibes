@@ -16,7 +16,7 @@ const BotaoBuscar: React.FC<BotaoBuscarProps>=({onBuscar,loading})=>{
         cursor: loading ? "not-allowed" : "pointer",
         backgroundColor:"#f73b3b",
         color:'#fff', 
-        marginTop:'250px',
+        marginTop:'100px',
         borderRadius:'32px',
         zIndex: 1000
       }}

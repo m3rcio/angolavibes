@@ -30,26 +30,25 @@ function App() {
   }
   return (
     <>
-    <Navbar onLoginClick={onLoginClick} onSignupClick={onSignupClick} onLogoutClick={onLogoutClick}></Navbar>
-      <Routes>
-        <Route path="/" element={<Descobrir/>} /> 
-      </Routes>
-       <section className="hero">
-    <h1>Título</h1>
-        </section>
+  <Navbar
+    onLoginClick={onLoginClick}
+    onSignupClick={onSignupClick}
+    onLogoutClick={onLogoutClick}
+  />
 
-        <section className="content">
+  <section className="hero">
+    <Routes>
+      <Route path="/" element={<Descobrir />} />
+    </Routes>
+  </section>
+
+  <section className="content">
     conteúdo da página
-        </section>
-      <LoginModal
-        isOpen={loginOpen}
-        onClose={closeLogin}
-      />
-      <SignupModal
-        isOpen={signupOpen}
-        onClose={closeSignup}
-      />
-    </>
+  </section>
+
+  <LoginModal isOpen={loginOpen} onClose={closeLogin} />
+  <SignupModal isOpen={signupOpen} onClose={closeSignup} />
+</>
   )
 }
 

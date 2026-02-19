@@ -28,7 +28,7 @@ const InputBuscar: React.FC<InputBuscarProps> = ({
       style={{
         padding: "15px 0px 15px 0px",
         borderRadius: "32px",
-        border: "3px solid #8b8b8b",
+        border: "1px solid #8b8b8b",
         width: '400px',
         zIndex: 1000
       }}
