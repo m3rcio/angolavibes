@@ -10,8 +10,8 @@ type LugarCategoriaCardProps = {
 export function LugarCategoriaCard({categoria: LugarCategoriaCardProps}: LugarCategoriaCardProps) {
     return (
       <div className="lugar-categoria-card">
-        <img src={LugarCategoriaCardProps.imagem} alt={LugarCategoriaCardProps.titulo} />
-        <h3>{LugarCategoriaCardProps.titulo}</h3>
+        <img src={LugarCategoriaCardProps.imagem} alt={LugarCategoriaCardProps.nome} />
+        <h3>{LugarCategoriaCardProps.nome}</h3>
       </div>
     );
  }

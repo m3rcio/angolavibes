@@ -1,5 +1,5 @@
 export interface LugarCategoria {
     id: number;
-    titulo: string;
+    nome: string;
     imagem: string;
 }
