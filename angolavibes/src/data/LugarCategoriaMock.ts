@@ -9,7 +9,17 @@ export const lugarCategoriaMock: LugarCategoria[] = [
   },
   {
     id: 2,
-    nome: "Ótimo lugar para lazer e caminhadas.",
+    nome: "Safaris",
     imagem: "/images/local2.jpg"
-  }
+  },
+  {
+    id: 3,
+    nome: "Praias",
+    imagem: "/images/local3.jpg"
+  },
+    {
+    id: 4,
+    nome: "Shoppings",
+    imagem: "/images/local4.jpg"
+    }
 ];

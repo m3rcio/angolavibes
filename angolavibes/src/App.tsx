@@ -5,6 +5,7 @@ import Descobrir from './pages/Descobrir/Descobrir'
 import { useState } from 'react'
 import LoginModal from './components/LoginModal/LoginModal'
 import SignupModal from './components/SignupModal/SignupModal'
+import { lugarCategoriaMock } from './data/LugarCategoriaMock'
 
 function App() {
   const [loginOpen,setLoginOpen]=useState(false);
@@ -42,9 +43,15 @@ function App() {
     </Routes>
   </section>
 
-  <section className="content">
-    conteúdo da página
-  </section>
+ <section className="content">
+  {lugarCategoriaMock.map((local) => (
+    <div key={local.id} className="card">
+      <img src={local.imagem} alt={local.nome} />
+      <h3>{local.nome}</h3>
+      <p>{local.nome}</p>
+    </div>
+  ))}
+</section>
 
   <LoginModal isOpen={loginOpen} onClose={closeLogin} />
   <SignupModal isOpen={signupOpen} onClose={closeSignup} />

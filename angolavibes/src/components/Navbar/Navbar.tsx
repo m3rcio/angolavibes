@@ -28,7 +28,7 @@ const {user,logout} = useAuth();
 
       
       <div className="navbar-actions">
-        <button className="btn-signup" onClick={onSignupClick}>Sign Up</button>
+        <span className="navbar-username">Olá, {user.nome}</span>
         <button className="btn-signup" onClick={logout}>Logout</button>
       </div>
     
