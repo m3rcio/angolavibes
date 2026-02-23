@@ -1,3 +1,4 @@
+import axios from "axios";
 import { Router } from "express";
 const googleRoutes=Router();
 
@@ -10,5 +11,8 @@ googleRoutes.get('/api/angolavibes', async (req,res)=>{
 
     try{
         const resposnse= await axios.get(url);
+        res.json(resposnse.data.results);
+    }catch(error){
+        res.status(500).send("Erro ao buscar dados do Google");
     }
 })
