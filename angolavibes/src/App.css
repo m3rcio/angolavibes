@@ -31,8 +31,9 @@
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  background: white;
+  /* background: white; */
   height: 180px;
+  color: black;
   cursor: pointer;
 }
 

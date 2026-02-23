@@ -48,7 +48,6 @@ function App() {
     <div key={local.id} className="card">
       <img src={local.imagem} alt={local.nome} />
       <h3>{local.nome}</h3>
-      <p>{local.nome}</p>
     </div>
   ))}
 </section>
