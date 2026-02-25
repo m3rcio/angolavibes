@@ -19,56 +19,101 @@ function mapCategoria(types: string[]): number {
 }
 
 
+function formatTime(hour?: number, minute?: number) {
+  if (hour === undefined || minute === undefined) return null;
+  return `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}:00`;
+}
+
 googleRoutes.get("/places", async (req, res) => {
   try {
-    const { query } = req.query;
+    const { query, categoria, pageToken } = req.query;
+
+    const body: any = {
+      textQuery: `${query || ""} em Luanda`,
+      maxResultCount: 20
+    };
+
+    if (pageToken) body.pageToken = pageToken;
 
     const response = await axios.post(
       "https://places.googleapis.com/v1/places:searchText",
-      {
-        textQuery: query,
-        includedTypes: [
-          "restaurant",
-          "cafe",
-          "bar",
-          "tourist_attraction",
-          "museum",
-          "park",
-          "shopping_mall",
-          "lodging",
-          "stadium"
-        ],
-        maxResultCount: 20
-      },
+      body,
       {
         headers: {
           "Content-Type": "application/json",
           "X-Goog-Api-Key": process.env.GOOGLE_API_KEY,
           "X-Goog-FieldMask":
-            "places.displayName,places.formattedAddress,places.location,places.nationalPhoneNumber,places.priceLevel,places.regularOpeningHours,places.photos,place.websiteUri,place.rating"
+            "places.id,places.displayName,places.formattedAddress,places.location,places.nationalPhoneNumber,places.priceLevel,places.regularOpeningHours,places.types,places.photos,nextPageToken"
         }
       }
     );
 
-    const lugares = response.data.places.map((place: any) => ({
-      nome: place.displayName?.text || "",
-      descricao: "",
-      endereco: place.formattedAddress || "",
-      latitude: place.location?.latitude || null,
-      longitude: place.location?.longitude || null,
-      telefone: place.nationalPhoneNumber || "",
-      preco_medio: place.priceLevel || null,
-      horario_abertura:
-        place.regularOpeningHours?.periods?.[0]?.open?.hour || null,
-      horario_fechamento:
-        place.regularOpeningHours?.periods?.[0]?.close?.hour || null,
-      categoria_id: 1, // você pode mapear dinamicamente
-      imagem: place.phtos || "",
-      website: place.websiteUri || "",
-      avaliacao: place.rating || null
-    }));
+    const lugares = response.data.places || [];
+    const nextPageToken = response.data.nextPageToken || null;
 
-    res.json(lugares);
+    for (const place of lugares) {
+      const categoria_id = categoria
+        ? Number(categoria)
+        : mapCategoria(place.types);
+
+      const openPeriod = place.regularOpeningHours?.periods?.[0];
+
+      const horario_abertura = formatTime(
+        openPeriod?.open?.hour,
+        openPeriod?.open?.minute
+      );
+
+      const horario_fechamento = formatTime(
+        openPeriod?.close?.hour,
+        openPeriod?.close?.minute
+      );
+
+      let imagem = "";
+      if (place.photos?.length) {
+        imagem = `https://places.googleapis.com/v1/${place.photos[0].name}/media?maxHeightPx=400&key=${process.env.GOOGLE_API_KEY}`;
+      }
+
+      await db.execute(
+        `INSERT INTO lugares
+        (google_place_id, nome, descricao, endereco, latitude, longitude,
+         telefone, preco_medio, horario_abertura, horario_fechamento,
+         categoria_id, imagem)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ON DUPLICATE KEY UPDATE
+          nome = VALUES(nome),
+          endereco = VALUES(endereco),
+          latitude = VALUES(latitude),
+          longitude = VALUES(longitude),
+          telefone = VALUES(telefone),
+          preco_medio = VALUES(preco_medio),
+          horario_abertura = VALUES(horario_abertura),
+          horario_fechamento = VALUES(horario_fechamento),
+          categoria_id = VALUES(categoria_id),
+          imagem = VALUES(imagem)
+        `,
+        [
+          place.id,
+          place.displayName?.text || "",
+          "",
+          place.formattedAddress || "",
+          place.location?.latitude || null,
+          place.location?.longitude || null,
+          place.nationalPhoneNumber || "",
+          place.priceLevel || null,
+          horario_abertura,
+          horario_fechamento,
+          categoria_id,
+          imagem
+        ]
+      );
+    }
+
+    res.json({
+      message: "Sincronização concluída",
+      total: lugares.length,
+      nextPageToken
+    });
+
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Erro ao buscar lugares" });
