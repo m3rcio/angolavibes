@@ -7,9 +7,24 @@ import LoginModal from './components/LoginModal/LoginModal'
 import SignupModal from './components/SignupModal/SignupModal'
 import { lugarCategoriaMock } from './data/LugarCategoriaMock'
 
+export interface Lugar {
+  google_place_id: string;
+  nome: string;
+  descricao: string;
+  endereco: string;
+  latitude: number;
+  longitude: number;
+  telefone: string;
+  preco_medio: number;
+  imagem: string;
+}
+
 function App() {
   const [loginOpen,setLoginOpen]=useState(false);
   const [signupOpen,setSignupOpen]=useState(false);
+  const [lugares, setLugares] = useState<Lugar[]>([]);
+  const [texto, setTexto] = useState("");
+
    function onLoginClick() {
     setLoginOpen(true);
   }
@@ -28,6 +43,18 @@ function App() {
 
   function onLogoutClick() {
     
+  }
+
+  async function buscarLugares() {
+    if(!texto.trim()) return;
+
+    try{
+      const response= await axios.get(`http://localhost:5000/places?query=${texto}`);
+
+      setLugares(response.data);
+    }catch(error){
+      console.error(error);
+    }
   }
   return (
     <>
