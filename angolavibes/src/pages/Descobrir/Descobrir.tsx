@@ -44,9 +44,14 @@ export interface Lugar {
          <div className="descobrir-div">
   <div className="input-wrapper">
     <InputBuscar value={texto} onChange={(e)=>setTexto(e.target.value)} 
-     onBuscar={handleKeyDown} />
-    <BotaoBuscar onBuscar={handleBuscar} />
+     onBuscar={handleKeyDown} placeholder="Pesquisar em Luanda..."/>
+    <BotaoBuscar onBuscar={buscarLugares} />
   </div>
+  <section style={{ display: "grid", gap: "20px", marginTop: "30px" }}>
+        {lugares.map((lugar) => (
+          <CardLugar key={lugar.google_place_id} lugar={lugar} />
+        ))}
+      </section>
 </div>
     )
  }
