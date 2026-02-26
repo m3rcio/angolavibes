@@ -18,6 +18,25 @@ export interface Lugar {
  function Descobrir(){
   const [lugares, setLugares] = useState<Lugar[]>([]);
   const [texto, setTexto] = useState("");
+
+  async function buscarLugares() {
+    if(!texto.trim()) return;
+
+    try{
+      const response= await axios.get(`http://localhost:5000/places?query=${texto}`);
+
+      setLugares(response.data);
+    }catch(error){
+      console.error(error);
+    }
+  }
+
+   function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key === "Enter") {
+      buscarLugares();
+    }
+  }
+
     function handleBuscar() {
     console.log("Buscar por:", texto);
   }
