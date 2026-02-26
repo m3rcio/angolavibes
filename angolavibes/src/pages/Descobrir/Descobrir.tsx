@@ -43,7 +43,8 @@ export interface Lugar {
     return(
          <div className="descobrir-div">
   <div className="input-wrapper">
-    <InputBuscar value={texto} onChange={setTexto} onBuscar={handleBuscar} />
+    <InputBuscar value={texto} onChange={(e)=>setTexto(e.target.value)} 
+     onBuscar={handleKeyDown} />
     <BotaoBuscar onBuscar={handleBuscar} />
   </div>
 </div>
