@@ -37,8 +37,12 @@
   cursor: pointer;
 }
 
+.card h3 {
+  z-index: 1;
+}
+
 .card img {
   width: 100%;
-  height: 80px;
+  height: 100%;
   object-fit: cover;
 }
