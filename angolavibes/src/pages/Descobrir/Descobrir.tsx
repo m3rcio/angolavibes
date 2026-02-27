@@ -2,7 +2,9 @@ import { useState } from 'react'
 import './Descobrir.css'
 import BotaoBuscar from '../../components/BotaoBuscar';
 import InputBuscar from '../../components/InputBuscar';
- 
+import axios from "axios";
+import CardLugar from '../../components/CardLugar';
+
 export interface Lugar {
   google_place_id: string;
   nome: string;
@@ -17,17 +19,22 @@ export interface Lugar {
 
  function Descobrir(){
   const [lugares, setLugares] = useState<Lugar[]>([]);
-  const [texto, setTexto] = useState("");
+  const [texto, setTexto] = useState('');
 
   async function buscarLugares() {
     if(!texto.trim()) return;
 
     try{
-      const response= await axios.get(`http://localhost:5000/places?query=${texto}`);
-
+      const response= await axios.get('/places', {
+  params: {
+    query: texto
+  }
+});
+      console.log(response.data);
       setLugares(response.data);
     }catch(error){
       console.error(error);
+      console.log(error);
     }
   }
 
@@ -37,14 +44,12 @@ export interface Lugar {
     }
   }
 
-    function handleBuscar() {
-    console.log("Buscar por:", texto);
-  }
+ 
     return(
          <div className="descobrir-div">
   <div className="input-wrapper">
-    <InputBuscar value={texto} onChange={(e)=>setTexto(e.target.value)} 
-     onBuscar={handleKeyDown} placeholder="Pesquisar em Luanda..."/>
+    <InputBuscar value={texto} onChange={setTexto} 
+     onBuscar={buscarLugares} />
     <BotaoBuscar onBuscar={buscarLugares} />
   </div>
   <section style={{ display: "grid", gap: "20px", marginTop: "30px" }}>

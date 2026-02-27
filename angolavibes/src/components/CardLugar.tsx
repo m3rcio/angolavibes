@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import Lugar from ''
 interface Props {
   lugar: Lugar;
 }

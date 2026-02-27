@@ -11,19 +11,14 @@ const InputBuscar: React.FC<InputBuscarProps> = ({
   value,
   onChange,
   onBuscar,
-  placeholder = "Buscar..."
+  placeholder = "Pesquisar em Luanda..."
 }) => {
-     function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (e.key === "Enter") {
-      onBuscar();
-    }
-  }
+
   return (
    <input
   type="text"
   value={value}
   onChange={(e) => onChange(e.target.value)}
-  onKeyDown={handleKeyDown}
   placeholder={placeholder}
   style={{
     padding: "15px 120px 15px 20px", // espaço para o botão à direita
