@@ -25,13 +25,13 @@ export interface Lugar {
     if(!texto.trim()) return;
 
     try{
-      const response= await axios.get('http://localhost:3000/places', {
+      const response= await axios.get('http://localhost:5000/api/places', {
   params: {
     query: texto
   }
 });
-      console.log(response.data+" yup this is it");
-      setLugares(response.data);
+      console.log(response.data.places+" yup this is it");
+      setLugares(response.data.places);
     }catch(error){
       console.error(error);
       console.log(error);
