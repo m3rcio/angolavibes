@@ -76,11 +76,12 @@ googleRoutes.get("/places", async (req, res) => {
 
       await db.execute(
         `INSERT INTO lugares
-        (id, nome, descricao, endereco, latitude, longitude,
+        (google_place_id, nome, endereco, latitude, longitude,
          telefone, preco_medio, horario_abertura, horario_fechamento,
          categoria_id)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
         ON DUPLICATE KEY UPDATE
+          google_place_id = VALUES(google_place_id),
           nome = VALUES(nome),
           endereco = VALUES(endereco),
           latitude = VALUES(latitude),
@@ -105,10 +106,14 @@ googleRoutes.get("/places", async (req, res) => {
           categoria_id
         ]
       );
+
+      await db.execute( `INSERT INTO lugar_imagens (lugar_id, imagem_url) VALUES (?, ?)
+         ON DUPLICATE KEY UPDATE imagem_url = VALUES(imagem_url)`, [place.id, imagem]);
     }
 
     const [rows] = await db.query("SELECT * FROM lugares");
-    res.json(rows);
+    const [rowsImagens] = await db.query("SELECT * FROM lugar_imagens");
+    res.json({ lugares: rows, imagens: rowsImagens });
 
   } catch (error) {
     console.error(error);

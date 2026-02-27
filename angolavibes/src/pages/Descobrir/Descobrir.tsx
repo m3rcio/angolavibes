@@ -3,7 +3,6 @@ import './Descobrir.css'
 import BotaoBuscar from '../../components/BotaoBuscar';
 import InputBuscar from '../../components/InputBuscar';
 import axios from "axios";
-import CardLugar from '../../components/CardLugar';
 
 export interface Lugar {
   google_place_id: string;
