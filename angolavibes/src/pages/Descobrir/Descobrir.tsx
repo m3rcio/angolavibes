@@ -17,8 +17,11 @@ export interface Lugar {
   imagem: string;
 }
 
- function Descobrir(){
+interface Props {
+  setLugares: React.Dispatch<React.SetStateAction<Lugar[]>>;
+}
 
+ function Descobrir({ setLugares }: Props){
   const [texto, setTexto] = useState('');
 
   async function buscarLugares() {
