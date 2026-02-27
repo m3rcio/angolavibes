@@ -33,7 +33,7 @@ interface Props {
   }
 });
       console.log(response.data);
-      setLugares(response.data);
+      setLugares(response.data.lugares);
     }catch(error){
       console.error(error);
       console.log(error);

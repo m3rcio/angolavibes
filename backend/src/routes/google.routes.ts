@@ -95,7 +95,6 @@ googleRoutes.get("/places", async (req, res) => {
         [
           place.id,
           place.displayName?.text || "",
-          "",
           place.formattedAddress || "",
           place.location?.latitude || null,
           place.location?.longitude || null,
