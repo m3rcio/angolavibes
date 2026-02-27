@@ -1,5 +1,5 @@
 import React from "react";
-
+import './InputBuscar.css';
 type InputBuscarProps = {
   value: string;
   onChange: React.Dispatch<React.SetStateAction<string>>;
@@ -18,12 +18,13 @@ const InputBuscar: React.FC<InputBuscarProps> = ({
    <input
   type="text"
   value={value}
+  className="input-buscar"
   onChange={(e) => onChange(e.target.value)}
   placeholder={placeholder}
   style={{
-    padding: "15px 120px 15px 20px", // espaço para o botão à direita
+    padding: "20px 120px 20px 20px", // espaço para o botão à direita
     borderRadius: "32px",
-    border: "2px solid #8b8b8b",
+    border: "none",
     width: "100%"
   }}
 />

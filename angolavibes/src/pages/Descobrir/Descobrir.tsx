@@ -18,7 +18,7 @@ export interface Lugar {
 }
 
  function Descobrir(){
-  const [lugares, setLugares] = useState<Lugar[]>([]);
+
   const [texto, setTexto] = useState('');
 
   async function buscarLugares() {
@@ -52,11 +52,7 @@ export interface Lugar {
      onBuscar={buscarLugares} />
     <BotaoBuscar onBuscar={buscarLugares} />
   </div>
-  <section style={{ display: "grid", gap: "20px", marginTop: "30px" ,color: "Black"}}>
-        {lugares.map((lugar) => (
-          <CardLugar key={lugar.google_place_id} lugar={lugar} />
-        ))}
-      </section>
+  
 </div>
     )
  }

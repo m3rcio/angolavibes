@@ -1,18 +1,19 @@
 import './App.css'
 import Navbar from './components/Navbar/Navbar'
 import { Route, Routes } from 'react-router-dom'
-import Descobrir from './pages/Descobrir/Descobrir'
+import Descobrir, { type Lugar } from './pages/Descobrir/Descobrir'
 import { useState } from 'react'
 import LoginModal from './components/LoginModal/LoginModal'
 import SignupModal from './components/SignupModal/SignupModal'
 import { lugarCategoriaMock } from './data/LugarCategoriaMock'
+import CardLugar from './components/CardLugar'
 
 
 
 function App() {
   const [loginOpen,setLoginOpen]=useState(false);
   const [signupOpen,setSignupOpen]=useState(false);
-  
+  const [lugares, setLugares] = useState<Lugar[]>([]);
 
    function onLoginClick() {
     setLoginOpen(true);
@@ -49,7 +50,11 @@ function App() {
   </section>
 
  <section className="content">
-  {lugarCategoriaMock.map((local) => (
+  {lugares.length > 0 ? <div style={{ display: "grid", gap: "20px", marginTop: "30px" ,color: "Black"}}>
+        {lugares.map((lugar) => (
+          <CardLugar key={lugar.google_place_id} lugar={lugar} />
+        ))}
+      </div> : lugarCategoriaMock.map((local) => (
     <div key={local.id} className="card">
       <img src={local.imagem} alt={local.nome} />
       <h3>{local.nome}</h3>
