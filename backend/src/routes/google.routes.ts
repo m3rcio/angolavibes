@@ -107,8 +107,19 @@ googleRoutes.get("/places", async (req, res) => {
         ]
       );
 
-      await db.execute( `INSERT INTO lugar_imagens (lugar_id, imagem_url) VALUES (?, ?)
-         ON DUPLICATE KEY UPDATE imagem_url = VALUES(imagem_url)`, [place.id, imagem]);
+      const [rows]: any = await db.query(
+  "SELECT id FROM lugares WHERE google_place_id = ?",
+  [place.id]
+    );
+
+    const lugarIdInterno = rows[0].id;
+
+    await db.execute(
+  `INSERT INTO lugar_imagens (lugar_id, imagem_url)
+   VALUES (?, ?)
+   ON DUPLICATE KEY UPDATE imagem_url = VALUES(imagem_url)`,
+  [lugarIdInterno, imagem]
+);
     }
 
     const [rows] = await db.query("SELECT * FROM lugares");
