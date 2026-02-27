@@ -1,11 +1,11 @@
 import { useState } from "react";
-import Lugar from ''
+import type { Lugar } from "../pages/Descobrir/Descobrir";
 interface Props {
   lugar: Lugar;
 }
 
 export default function CardLugar({lugar}: Props){
-    const [mostrarMapa,setMostrarmapa]=useState(false);
+    const [mostrarMapa,setMostrarMapa]=useState(false);
 
     const mapaUrl=`https://maps.googleapis.com/maps/api/staticmap?center=${lugar.latitude},${lugar.longitude}&zoom=15&size=600x300&markers=color:red%7C${lugar.latitude},${lugar.longitude}&key=${
     import.meta.env.VITE_GOOGLE_MAPS_KEY
