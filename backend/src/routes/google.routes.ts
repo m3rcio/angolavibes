@@ -42,7 +42,7 @@ googleRoutes.get("/places", async (req, res) => {
       {
         headers: {
           "Content-Type": "application/json",
-          "X-Goog-Api-Key": process.env.GOOGLE_API_KEY,
+          "X-Goog-Api-Key": process.env.GOOGLE_MAPS_API_KEY,
           "X-Goog-FieldMask":
             "places.id,places.displayName,places.formattedAddress,places.location,places.nationalPhoneNumber,places.priceLevel,places.regularOpeningHours,places.types,places.photos,nextPageToken,places.websiteUri"
         }
@@ -76,10 +76,10 @@ googleRoutes.get("/places", async (req, res) => {
 
       await db.execute(
         `INSERT INTO lugares
-        (google_place_id, nome, descricao, endereco, latitude, longitude,
+        (id, nome, descricao, endereco, latitude, longitude,
          telefone, preco_medio, horario_abertura, horario_fechamento,
-         categoria_id, imagem)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+         categoria_id)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ON DUPLICATE KEY UPDATE
           nome = VALUES(nome),
           endereco = VALUES(endereco),
@@ -89,8 +89,7 @@ googleRoutes.get("/places", async (req, res) => {
           preco_medio = VALUES(preco_medio),
           horario_abertura = VALUES(horario_abertura),
           horario_fechamento = VALUES(horario_fechamento),
-          categoria_id = VALUES(categoria_id),
-          imagem = VALUES(imagem)
+          categoria_id = VALUES(categoria_id)
         `,
         [
           place.id,
@@ -103,17 +102,13 @@ googleRoutes.get("/places", async (req, res) => {
           place.priceLevel || null,
           horario_abertura,
           horario_fechamento,
-          categoria_id,
-          imagem
+          categoria_id
         ]
       );
     }
 
-    res.json({
-      message: "Sincronização concluída",
-      total: lugares.length,
-      nextPageToken
-    });
+    const [rows] = await db.query("SELECT * FROM lugares");
+    res.json(rows);
 
   } catch (error) {
     console.error(error);

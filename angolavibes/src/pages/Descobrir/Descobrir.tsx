@@ -30,8 +30,8 @@ export interface Lugar {
     query: texto
   }
 });
-      console.log(response.data.places+" yup this is it");
-      setLugares(response.data.places);
+      console.log(response.data+" yup this is it");
+      setLugares(response.data);
     }catch(error){
       console.error(error);
       console.log(error);
@@ -52,7 +52,7 @@ export interface Lugar {
      onBuscar={buscarLugares} />
     <BotaoBuscar onBuscar={buscarLugares} />
   </div>
-  <section style={{ display: "grid", gap: "20px", marginTop: "30px" }}>
+  <section style={{ display: "grid", gap: "20px", marginTop: "30px" ,color: "Black"}}>
         {lugares.map((lugar) => (
           <CardLugar key={lugar.google_place_id} lugar={lugar} />
         ))}
