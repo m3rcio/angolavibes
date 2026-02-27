@@ -45,7 +45,7 @@ function App() {
 
   <section className="hero">
     <Routes>
-      <Route path="/" element={<Descobrir />} />
+      <Route path="/" element={<Descobrir setLugares={setLugares}/>} />
     </Routes>
   </section>
 
