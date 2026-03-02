@@ -2,6 +2,7 @@ import axios from "axios";
 import { Router } from "express";
 import { db } from "../database/connection";
 import { RowDataPacket } from "mysql2";
+import { Lugar } from "../models/Lugar.model";
 const googleRoutes=Router();
 
 export default googleRoutes;
