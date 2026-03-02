@@ -13,7 +13,7 @@ export interface Lugar {
   longitude: number;
   telefone: string;
   preco_medio: number;
-  imagem: string;
+  imagens: string[];
 }
 
 interface Props {

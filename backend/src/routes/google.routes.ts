@@ -6,6 +6,15 @@ const googleRoutes=Router();
 
 export default googleRoutes;
 
+
+interface LugarJoinRow extends RowDataPacket {
+  id: number;
+  nome: string;
+  descricao: string;
+  google_place_id: string;
+  imagem_url: string | null;
+}
+
 function mapCategoria(types: string[]): number {
   if (!types) return 2;
 
@@ -124,30 +133,38 @@ googleRoutes.get("/places", async (req, res) => {
 
     // const [rows] = await db.query("SELECT * FROM lugares");
     // const [rowsImagens] = await db.query("SELECT * FROM lugar_imagens");
-    const [rows] = await db.query<RowDataPacket[]>(`
+    const [rows] = await db.query<LugarJoinRow[]>(`
   SELECT 
-    l.*, 
+    l.id,
+    l.nome,
+    l.descricao,
+    l.google_place_id,
     li.url AS imagem_url
   FROM lugares l
   LEFT JOIN lugar_imagens li 
     ON li.lugar_id = l.id
 `);
-      const lugaresMap = new Map();
+     const lugaresMap = new Map<number, Lugar>();
 
-rows.forEach((row: any) => {
+rows.forEach((row) => {
   if (!lugaresMap.has(row.id)) {
     lugaresMap.set(row.id, {
-      ...row,
+      id: row.id,
+      nome: row.nome,
+      descricao: row.descricao,
+      google_place_id: row.google_place_id,
       imagens: []
     });
   }
 
   if (row.imagem_url) {
-    lugaresMap.get(row.id).imagens.push(row.imagem_url);
+    lugaresMap.get(row.id)!.imagens.push(row.imagem_url);
   }
 });
 
-res.json([...lugaresMap.values()]);
+const lugaresJoin = Array.from(lugaresMap.values());
+
+res.json(lugaresJoin);
 
   } catch (error) {
     console.error(error);
