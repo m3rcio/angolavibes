@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Router } from "express";
 import { db } from "../database/connection";
+import { RowDataPacket } from "mysql2";
 const googleRoutes=Router();
 
 export default googleRoutes;
@@ -121,9 +122,32 @@ googleRoutes.get("/places", async (req, res) => {
 );
     }
 
-    const [rows] = await db.query("SELECT * FROM lugares");
-    const [rowsImagens] = await db.query("SELECT * FROM lugar_imagens");
-    res.json({ lugares: rows, imagens: rowsImagens });
+    // const [rows] = await db.query("SELECT * FROM lugares");
+    // const [rowsImagens] = await db.query("SELECT * FROM lugar_imagens");
+    const [rows] = await db.query<RowDataPacket[]>(`
+  SELECT 
+    l.*, 
+    li.url AS imagem_url
+  FROM lugares l
+  LEFT JOIN lugar_imagens li 
+    ON li.lugar_id = l.id
+`);
+      const lugaresMap = new Map();
+
+rows.forEach((row: any) => {
+  if (!lugaresMap.has(row.id)) {
+    lugaresMap.set(row.id, {
+      ...row,
+      imagens: []
+    });
+  }
+
+  if (row.imagem_url) {
+    lugaresMap.get(row.id).imagens.push(row.imagem_url);
+  }
+});
+
+res.json([...lugaresMap.values()]);
 
   } catch (error) {
     console.error(error);

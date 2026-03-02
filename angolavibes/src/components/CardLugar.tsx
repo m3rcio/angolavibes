@@ -21,11 +21,14 @@ export default function CardLugar({lugar}: Props){
       }}
     >
       <div style={{ position: "relative" }}>
-        <img
+        {/* <img
           src={mostrarMapa ? mapaUrl : lugar.imagem}
           alt={lugar.nome}
           style={{ width: "100%", height: "300px", objectFit: "cover" }}
-        />
+        /> */}
+        {lugar.imagem?.map((img, index) => (
+  <img key={index} src={img} alt={lugar.nome} />
+        ))}
 
         <button
           onClick={() => setMostrarMapa(!mostrarMapa)}
