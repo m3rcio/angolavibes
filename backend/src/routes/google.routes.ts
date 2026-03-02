@@ -105,7 +105,6 @@ googleRoutes.get("/places", async (req, res) => {
         for (const photo of fotosLimitadas) {
           const photoReference = photo.name.split("/").pop(); // pega só o PHOTO_REFERENCE
           const urlCompleta = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=${photoReference}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
-          console.log("URL foto gerada:", urlCompleta);
           await db.execute(
             `INSERT INTO lugar_imagens (lugar_id, imagem_url)
              VALUES (?, ?)
