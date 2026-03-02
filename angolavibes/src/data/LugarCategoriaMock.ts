@@ -5,21 +5,21 @@ export const lugarCategoriaMock: LugarCategoria[] = [
   {
     id: 1,
     nome: "Restaurantes",
-    imagem: "/assets/categorias/restaurante2.jpg"
+    imagem: "/assets/categorias/restaurante2.webp"
   },
   {
     id: 2,
     nome: "Safaris",
-    imagem: "/assets/categorias/safari.jpg"
+    imagem: "/assets/categorias/safari.webp"
   },
   {
     id: 3,
     nome: "Praias",
-    imagem: "/assets/categorias/praias.jpg"
+    imagem: "/assets/categorias/praias.webp"
   },
     {
     id: 4,
     nome: "Shoppings",
-    imagem: "/assets/categorias/shopping.jpg"
+    imagem: "/assets/categorias/shopping.webp"
     }
 ];

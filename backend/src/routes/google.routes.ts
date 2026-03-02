@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Router } from "express";
 import { db } from "../database/connection";
-import { RowDataPacket } from "mysql2";
+import { RowDataPacket, ResultSetHeader } from "mysql2";
 import { Lugar } from "../models/Lugar.model";
 const googleRoutes=Router();
 
@@ -55,15 +55,15 @@ googleRoutes.get("/places", async (req, res) => {
           "Content-Type": "application/json",
           "X-Goog-Api-Key": process.env.GOOGLE_MAPS_API_KEY,
           "X-Goog-FieldMask":
-            "places.id,places.displayName,places.formattedAddress,places.location,places.nationalPhoneNumber,places.priceLevel,places.regularOpeningHours,places.types,places.photos,nextPageToken,places.websiteUri"
+            "places.id,places.displayName,places.formattedAddress,places.location,places.nationalPhoneNumber,places.priceLevel,places.regularOpeningHours,places.types,places.photos,nextPageToken"
         }
       }
     );
 
     const lugares = response.data.places || [];
-    const nextPageToken = response.data.nextPageToken || null;
 
     for (const place of lugares) {
+
       const categoria_id = categoria
         ? Number(categoria)
         : mapCategoria(place.types);
@@ -80,93 +80,92 @@ googleRoutes.get("/places", async (req, res) => {
         openPeriod?.close?.minute
       );
 
-      let imagem = "";
-      if (place.photos?.length) {
-        imagem = `https://places.googleapis.com/v1/${place.photos[0].name}/media?maxHeightPx=400&key=${process.env.GOOGLE_API_KEY}`;
-      }
-
-      await db.execute(
-        `INSERT INTO lugares
-        (google_place_id, nome, endereco, latitude, longitude,
-         telefone, preco_medio, horario_abertura, horario_fechamento,
-         categoria_id)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
-        ON DUPLICATE KEY UPDATE
-          google_place_id = VALUES(google_place_id),
-          nome = VALUES(nome),
-          endereco = VALUES(endereco),
-          latitude = VALUES(latitude),
-          longitude = VALUES(longitude),
-          telefone = VALUES(telefone),
-          preco_medio = VALUES(preco_medio),
-          horario_abertura = VALUES(horario_abertura),
-          horario_fechamento = VALUES(horario_fechamento),
-          categoria_id = VALUES(categoria_id)
-        `,
-        [
-          place.id,
-          place.displayName?.text || "",
-          place.formattedAddress || "",
-          place.location?.latitude || null,
-          place.location?.longitude || null,
-          place.nationalPhoneNumber || "",
-          place.priceLevel || null,
-          horario_abertura,
-          horario_fechamento,
-          categoria_id
-        ]
+      // 1️⃣ Verifica se já existe
+      const [existing] = await db.query<RowDataPacket[]>(
+        "SELECT id FROM lugares WHERE google_place_id = ?",
+        [place.id]
       );
 
-      const [rows]: any = await db.query(
-  "SELECT id FROM lugares WHERE google_place_id = ?",
-  [place.id]
-    );
+      let lugarIdInterno: number;
 
-    const lugarIdInterno = rows[0].id;
+      if (existing.length > 0) {
+        lugarIdInterno = existing[0].id;
+      } else {
+        // 2️⃣ Insere apenas se não existir
+        const [result] = await db.execute<ResultSetHeader>(
+          `INSERT INTO lugares
+          (google_place_id, nome, endereco, latitude, longitude,
+           telefone, preco_medio, horario_abertura, horario_fechamento,
+           categoria_id)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          [
+            place.id,
+            place.displayName?.text || "",
+            place.formattedAddress || "",
+            place.location?.latitude || null,
+            place.location?.longitude || null,
+            place.nationalPhoneNumber || "",
+            place.priceLevel || null,
+            horario_abertura,
+            horario_fechamento,
+            categoria_id
+          ]
+        );
 
-    await db.execute(
-  `INSERT INTO lugar_imagens (lugar_id, imagem_url)
-   VALUES (?, ?)
-   ON DUPLICATE KEY UPDATE imagem_url = VALUES(imagem_url)`,
-  [lugarIdInterno, imagem]
-);
+        lugarIdInterno = result.insertId;
+      }
+
+      // 3️⃣ Inserir todas as imagens (se existirem)
+      if (place.photos?.length) {
+        for (const photo of place.photos) {
+
+          const photoName = photo.name; // guardar só o identificador
+
+          await db.execute(
+            `INSERT INTO lugar_imagens (lugar_id, imagem_url)
+             VALUES (?, ?)
+             ON DUPLICATE KEY UPDATE imagem_url = VALUES(imagem_url)`,
+            [lugarIdInterno, photoName]
+          );
+        }
+      }
     }
 
-    // const [rows] = await db.query("SELECT * FROM lugares");
-    // const [rowsImagens] = await db.query("SELECT * FROM lugar_imagens");
+    // 4️⃣ Buscar já com JOIN
     const [rows] = await db.query<LugarJoinRow[]>(`
-  SELECT 
-    l.id,
-    l.nome,
-    l.descricao,
-    l.google_place_id,
-    li.imagem_url AS imagem_url
-  FROM lugares l
-  LEFT JOIN lugar_imagens li 
-    ON li.lugar_id = l.id
-`);
-     const lugaresMap = new Map<number, Lugar>();
+      SELECT 
+        l.id,
+        l.nome,
+        l.descricao,
+        l.google_place_id,
+        li.imagem_url
+      FROM lugares l
+      LEFT JOIN lugar_imagens li 
+        ON li.lugar_id = l.id
+    `);
 
-rows.forEach((row) => {
-  if (!lugaresMap.has(row.id)) {
-    lugaresMap.set(row.id, {
-      id: row.id,
-      nome: row.nome,
-      descricao: row.descricao,
-      google_place_id: row.google_place_id,
-      imagens: []
+    const lugaresMap = new Map<number, any>();
+
+    rows.forEach((row) => {
+      if (!lugaresMap.has(row.id)) {
+        lugaresMap.set(row.id, {
+          id: row.id,
+          nome: row.nome,
+          descricao: row.descricao,
+          google_place_id: row.google_place_id,
+          imagens: []
+        });
+      }
+
+      if (row.imagem_url) {
+        lugaresMap.get(row.id).imagens.push(row.imagem_url);
+      }
     });
-  }
 
-  if (row.imagem_url) {
-    lugaresMap.get(row.id)!.imagens.push(row.imagem_url);
-  }
-});
+    const lugaresJoin = Array.from(lugaresMap.values());
 
-const lugaresJoin = Array.from(lugaresMap.values());
+    res.json(lugaresJoin);
 
-const result= res.json(lugaresJoin);
-console.log(result);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Erro ao buscar lugares" });

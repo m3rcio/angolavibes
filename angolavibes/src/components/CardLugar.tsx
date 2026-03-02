@@ -21,11 +21,11 @@ export default function CardLugar({lugar}: Props){
       }}
     >
       <div style={{ position: "relative" }}>
-        {/* <img
-          src={mostrarMapa ? mapaUrl : lugar.imagem}
+        <img
+          src={mostrarMapa ? mapaUrl || "não deu mano" : lugar.imagens[0]}
           alt={lugar.nome}
           style={{ width: "100%", height: "300px", objectFit: "cover" }}
-        /> */}
+        />
         {/* {lugar.imagens?.map((img, index) => (
   <img key={index} src={img} alt={lugar.nome} />
         ))} */}
