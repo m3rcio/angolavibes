@@ -44,7 +44,7 @@ export default function CardLugar({ lugar }: Props) {
             right: "10px",
             padding: "6px 12px",
             cursor: "pointer",
-            backgroundColor: "rgba(233, 10, 10, 0.6)0.6)",
+            backgroundColor: "red",
             color: "#fff",
             border: "none",
             borderRadius: "4px",

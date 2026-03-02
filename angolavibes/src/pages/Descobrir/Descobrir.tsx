@@ -36,6 +36,7 @@ interface Props {
   ...lugar,
   imagens: lugar.imagens?.length ? lugar.imagens : []
 }));
+console.log(response.data[0].imagens);
 setLugares(lugaresComImagens);
     }catch(error){
       console.error(error);
