@@ -117,18 +117,21 @@ googleRoutes.get("/places", async (req, res) => {
 
       // 3️⃣ Inserir todas as imagens (se existirem)
       if (place.photos?.length) {
-        for (const photo of place.photos) {
 
-          const photoName = photo.name; // guardar só o identificador
+  const limitedPhotos = place.photos.slice(0, 5);
 
-          await db.execute(
-            `INSERT INTO lugar_imagens (lugar_id, imagem_url)
-             VALUES (?, ?)
-             ON DUPLICATE KEY UPDATE imagem_url = VALUES(imagem_url)`,
-            [lugarIdInterno, photoName]
-          );
-        }
-      }
+  for (const photo of limitedPhotos) {
+
+    const photoName = photo.name;
+
+    await db.execute(
+      `INSERT INTO lugar_imagens (lugar_id, imagem_url)
+       VALUES (?, ?)
+       ON DUPLICATE KEY UPDATE imagem_url = VALUES(imagem_url)`,
+      [lugarIdInterno, photoName]
+    );
+  }
+}
     }
 
     // 4️⃣ Buscar já com JOIN

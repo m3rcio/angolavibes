@@ -22,13 +22,15 @@ export default function CardLugar({lugar}: Props){
     >
       <div style={{ position: "relative" }}>
         <img
-          src={mostrarMapa ? mapaUrl || "não deu mano" : lugar.imagens[0]}
-          alt={lugar.nome}
-          style={{ width: "100%", height: "300px", objectFit: "cover" }}
-        />
-        {/* {lugar.imagens?.map((img, index) => (
-  <img key={index} src={img} alt={lugar.nome} />
-        ))} */}
+  src={
+    mostrarMapa
+      ? mapaUrl
+      : lugar.imagens?.[0] || "https://via.placeholder.com/600x300"
+  }
+  alt={lugar.nome}
+  style={{ width: "100%", height: "300px", objectFit: "cover" }}
+/>
+     
 
         <button
           onClick={() => setMostrarMapa(!mostrarMapa)}
@@ -44,9 +46,7 @@ export default function CardLugar({lugar}: Props){
         </button>
       </div>
 
-       {lugar.imagens.length > 0 && (
-        <img src={lugar.imagens[0]} alt={lugar.nome} />
-      )}
+    
       <h3>{lugar.nome}</h3>
       <p>{lugar.descricao}</p>
       <p>{lugar.endereco}</p>

@@ -32,7 +32,7 @@ interface Props {
     query: texto
   }
 });
-      console.log(response.data);
+      console.log(response.data.imagens);
       setLugares(response.data);
     }catch(error){
       console.error(error);
