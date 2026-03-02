@@ -140,7 +140,7 @@ googleRoutes.get("/places", async (req, res) => {
     l.nome,
     l.descricao,
     l.google_place_id,
-    li.url AS imagem_url
+    li.imagem_url AS imagem_url
   FROM lugares l
   LEFT JOIN lugar_imagens li 
     ON li.lugar_id = l.id
@@ -165,8 +165,8 @@ rows.forEach((row) => {
 
 const lugaresJoin = Array.from(lugaresMap.values());
 
-res.json(lugaresJoin);
-
+const result= res.json(lugaresJoin);
+console.log(result);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Erro ao buscar lugares" });
