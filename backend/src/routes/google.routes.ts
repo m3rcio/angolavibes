@@ -64,110 +64,117 @@ googleRoutes.get("/places", async (req, res) => {
 
     for (const place of lugares) {
 
-      const categoria_id = categoria
-        ? Number(categoria)
-        : mapCategoria(place.types);
+  const categoria_id = categoria
+    ? Number(categoria)
+    : mapCategoria(place.types);
 
-      const openPeriod = place.regularOpeningHours?.periods?.[0];
+  const openPeriod = place.regularOpeningHours?.periods?.[0];
 
-      const horario_abertura = formatTime(
-        openPeriod?.open?.hour,
-        openPeriod?.open?.minute
-      );
+  const horario_abertura = formatTime(
+    openPeriod?.open?.hour,
+    openPeriod?.open?.minute
+  );
 
-      const horario_fechamento = formatTime(
-        openPeriod?.close?.hour,
-        openPeriod?.close?.minute
-      );
+  const horario_fechamento = formatTime(
+    openPeriod?.close?.hour,
+    openPeriod?.close?.minute
+  );
 
-      // 1️⃣ Verifica se já existe
-      const [existing] = await db.query<RowDataPacket[]>(
-        "SELECT id FROM lugares WHERE google_place_id = ?",
-        [place.id]
-      );
+  // 1️⃣ Verifica se já existe o lugar
+  const [existing] = await db.query<RowDataPacket[]>(
+    "SELECT id FROM lugares WHERE google_place_id = ?",
+    [place.id]
+  );
 
-      let lugarIdInterno: number;
+  let lugarIdInterno: number;
 
-      if (existing.length > 0) {
-        lugarIdInterno = existing[0].id;
-      } else {
-        // 2️⃣ Insere apenas se não existir
-        const [result] = await db.execute<ResultSetHeader>(
-          `INSERT INTO lugares
-          (google_place_id, nome, endereco, latitude, longitude,
-           telefone, preco_medio, horario_abertura, horario_fechamento,
-           categoria_id)
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-          [
-            place.id,
-            place.displayName?.text || "",
-            place.formattedAddress || "",
-            place.location?.latitude || null,
-            place.location?.longitude || null,
-            place.nationalPhoneNumber || "",
-            place.priceLevel || null,
-            horario_abertura,
-            horario_fechamento,
-            categoria_id
-          ]
-        );
-
-        lugarIdInterno = result.insertId;
-      }
-
-      // 3️⃣ Inserir todas as imagens (se existirem)
-      if (place.photos?.length) {
-
-  const limitedPhotos = place.photos.slice(0, 5);
-
-  for (const photo of limitedPhotos) {
-
-    const photoName = photo.name;
-
-    await db.execute(
-      `INSERT INTO lugar_imagens (lugar_id, imagem_url)
-       VALUES (?, ?)
-       ON DUPLICATE KEY UPDATE imagem_url = VALUES(imagem_url)`,
-      [lugarIdInterno, photoName]
+  if (existing.length > 0) {
+    lugarIdInterno = existing[0].id;
+  } else {
+    const [result] = await db.execute<ResultSetHeader>(
+      `INSERT INTO lugares
+        (google_place_id, nome, endereco, latitude, longitude,
+         telefone, preco_medio, horario_abertura, horario_fechamento,
+         categoria_id)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        place.id,
+        place.displayName?.text || "",
+        place.formattedAddress || "",
+        place.location?.latitude || null,
+        place.location?.longitude || null,
+        place.nationalPhoneNumber || "",
+        place.priceLevel || null,
+        horario_abertura,
+        horario_fechamento,
+        categoria_id
+      ]
     );
+
+    lugarIdInterno = result.insertId;
+  }
+
+  // 2️⃣ Inserir no banco apenas os nomes das fotos (photo.name)
+  if (place.photos?.length) {
+    const fotosLimitadas = place.photos.slice(0, 5); // limita a 5 fotos
+
+    for (const photo of fotosLimitadas) {
+      await db.execute(
+        `INSERT INTO lugar_imagens (lugar_id, imagem_url)
+         VALUES (?, ?)
+         ON DUPLICATE KEY UPDATE imagem_url = VALUES(imagem_url)`,
+        [lugarIdInterno, photo.name]
+      );
+    }
   }
 }
-    }
 
-    // 4️⃣ Buscar já com JOIN
-    const [rows] = await db.query<LugarJoinRow[]>(`
-      SELECT 
-        l.id,
-        l.nome,
-        l.descricao,
-        l.google_place_id,
-        li.imagem_url
-      FROM lugares l
-      LEFT JOIN lugar_imagens li 
-        ON li.lugar_id = l.id
-    `);
+// 3️⃣ Buscar lugares com as imagens e gerar URLs completas
+const [rows] = await db.query<LugarJoinRow[]>(`
+  SELECT 
+    l.id,
+    l.nome,
+    l.descricao,
+    l.google_place_id,
+    l.endereco,
+    l.latitude,
+    l.longitude,
+    l.telefone,
+    l.preco_medio,
+    li.imagem_url
+  FROM lugares l
+  LEFT JOIN lugar_imagens li 
+    ON li.lugar_id = l.id
+`);
 
-    const lugaresMap = new Map<number, any>();
+const lugaresMap = new Map<number, any>();
 
-    rows.forEach((row) => {
-      if (!lugaresMap.has(row.id)) {
-        lugaresMap.set(row.id, {
-          id: row.id,
-          nome: row.nome,
-          descricao: row.descricao,
-          google_place_id: row.google_place_id,
-          imagens: []
-        });
-      }
-
-      if (row.imagem_url) {
-        lugaresMap.get(row.id).imagens.push(row.imagem_url);
-      }
+rows.forEach((row) => {
+  if (!lugaresMap.has(row.id)) {
+    lugaresMap.set(row.id, {
+      id: row.id,
+      nome: row.nome,
+      descricao: row.descricao,
+      google_place_id: row.google_place_id,
+      endereco: row.endereco,
+      latitude: row.latitude,
+      longitude: row.longitude,
+      telefone: row.telefone,
+      preco_medio: row.preco_medio,
+      imagens: []
     });
+  }
 
-    const lugaresJoin = Array.from(lugaresMap.values());
+  if (row.imagem_url) {
+    // 4️⃣ Aqui geramos a URL completa para cada imagem
+    const urlCompleta = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=${row.imagem_url}&key=${process.env.GOOGLE_API_KEY}`;
+    lugaresMap.get(row.id).imagens.push(urlCompleta);
+  }
+});
 
-    res.json(lugaresJoin);
+const lugaresJoin = Array.from(lugaresMap.values());
+
+res.json(lugaresJoin);
 
   } catch (error) {
     console.error(error);

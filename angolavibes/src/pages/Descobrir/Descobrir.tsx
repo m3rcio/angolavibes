@@ -32,8 +32,11 @@ interface Props {
     query: texto
   }
 });
-      console.log(response.data[0].imagens);
-      setLugares(response.data);
+      const lugaresComImagens = response.data.map((lugar: Lugar) => ({
+  ...lugar,
+  imagens: lugar.imagens?.length ? lugar.imagens : []
+}));
+setLugares(lugaresComImagens);
     }catch(error){
       console.error(error);
       console.log(error);
