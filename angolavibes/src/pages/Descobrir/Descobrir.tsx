@@ -27,6 +27,7 @@ interface Props {
     if(!texto.trim()) return;
 
     try{
+      setLugares([]); 
       const response= await axios.get('http://localhost:5000/api/places', {
   params: {
     query: texto

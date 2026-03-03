@@ -7,12 +7,16 @@ interface Props {
 
 export default function CardLugar({ lugar }: Props) {
   const [mostrarMapa, setMostrarMapa] = useState(false);
+  const [imgIndex, setImgIndex] = useState(0);
 
   const mapaUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${lugar.latitude},${lugar.longitude}&zoom=15&size=600x300&markers=color:red%7C${lugar.latitude},${lugar.longitude}&key=${
     import.meta.env.VITE_GOOGLE_MAPS_KEY
   }`;
-
-  return (
+  
+  const imagens = lugar.imagens?.length ? lugar.imagens : ["assets/placeholder.png"];
+  const proximaImagem = () => setImgIndex((prev) => (prev + 1) % imagens.length);
+  const imagemAnterior = () => setImgIndex((prev) => (prev - 1 + imagens.length) % imagens.length);
+   return (
     <div
       style={{
         border: "1px solid #ccc",
@@ -23,19 +27,17 @@ export default function CardLugar({ lugar }: Props) {
     >
       <div style={{ position: "relative" }}>
         <img
-          src={
-            mostrarMapa
-              ? mapaUrl
-              : lugar.imagens?.[0] || "https://via.placeholder.com/600x300"
-          }
+          src={mostrarMapa ? mapaUrl : imagens[imgIndex]}
           alt={lugar.nome}
           style={{
             width: "100%",
             height: "300px",
             objectFit: "cover",
+            borderRadius: "4px",
           }}
         />
 
+        {/* Botão de mapa */}
         <button
           onClick={() => setMostrarMapa(!mostrarMapa)}
           style={{
@@ -52,6 +54,48 @@ export default function CardLugar({ lugar }: Props) {
         >
           {mostrarMapa ? "Ver Foto" : "Ver Mapa"}
         </button>
+
+        {/* Controles do carrossel, só aparecem quando não está mostrando o mapa */}
+        {!mostrarMapa && imagens.length > 1 && (
+          <>
+            <button
+              onClick={imagemAnterior}
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "10px",
+                transform: "translateY(-50%)",
+                backgroundColor: "red",
+                color: "#fff",
+                border: "none",
+                borderRadius: "50%",
+                width: "30px",
+                height: "30px",
+                cursor: "pointer",
+              }}
+            >
+              ‹
+            </button>
+            <button
+              onClick={proximaImagem}
+              style={{
+                position: "absolute",
+                top: "50%",
+                right: "10px",
+                transform: "translateY(-50%)",
+                backgroundColor: "red",
+                color: "#fff",
+                border: "none",
+                borderRadius: "50%",
+                width: "30px",
+                height: "30px",
+                cursor: "pointer",
+              }}
+            >
+              ›
+            </button>
+          </>
+        )}
       </div>
 
       <h3>{lugar.nome}</h3>
