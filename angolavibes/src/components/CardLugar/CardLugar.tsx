@@ -32,7 +32,7 @@ export default function CardLugar({ lugar }: Props) {
           alt={lugar.nome}
           style={{
             width: "100%",
-            height: "300px",
+            height: "200px",
             objectFit: "cover",
             borderRadius: "4px",
           }}
