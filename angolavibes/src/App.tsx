@@ -6,7 +6,7 @@ import { useState } from 'react'
 import LoginModal from './components/LoginModal/LoginModal'
 import SignupModal from './components/SignupModal/SignupModal'
 import { lugarCategoriaMock } from './data/LugarCategoriaMock'
-import CardLugar from './components/CardLugar'
+import CardLugar from './components/CardLugar/CardLugar'
 
 
 
@@ -50,7 +50,7 @@ function App() {
   </section>
 
  <section className="content">
-  {lugares.length > 0 ? <div style={{ display: "grid", gap: "20px", marginTop: "30px" ,color: "Black"}}>
+  {lugares.length > 0 ? <div className="container">
         {lugares.map((lugar) => (
           <CardLugar key={lugar.google_place_id} lugar={lugar} />
         ))}

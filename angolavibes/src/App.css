@@ -46,3 +46,10 @@
   height: 100%;
   object-fit: cover;
 }
+
+.container{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 20px;
+  margin-top: "30px" ;color: "Black";
+} 

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import type { Lugar } from "../pages/Descobrir/Descobrir";
-
+import type { Lugar } from "../../pages/Descobrir/Descobrir";
+import "./CardLugar.css";
 interface Props {
   lugar: Lugar;
 }
@@ -22,8 +22,9 @@ export default function CardLugar({ lugar }: Props) {
         border: "1px solid #ccc",
         borderRadius: "8px",
         padding: "15px",
-        width: "600px",
+        width: "300px",
       }}
+     
     >
       <div style={{ position: "relative" }}>
         <img
