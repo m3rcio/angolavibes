@@ -98,8 +98,8 @@ export default function CardLugar({ lugar }: Props) {
           </>
         )}
       </div>
-
       <h3>{lugar.nome}</h3>
+<i className="bi bi-caret-left-square-fill"></i>
       <p>{lugar.descricao}</p>
       <p>{lugar.endereco}</p>
       <p>{lugar.telefone}</p>

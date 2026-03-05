@@ -50,6 +50,7 @@ function App() {
   </section>
 
  <section className="content">
+  
   {lugares.length > 0 ? <div className="container">
         {lugares.map((lugar) => (
           <CardLugar key={lugar.google_place_id} lugar={lugar} />
