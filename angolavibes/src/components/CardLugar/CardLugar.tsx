@@ -13,7 +13,7 @@ export default function CardLugar({ lugar }: Props) {
     import.meta.env.VITE_GOOGLE_MAPS_KEY
   }`;
   
-  const imagens = lugar.imagens?.length ? lugar.imagens : ["assets/placeholder.png"];
+  const imagens = lugar.imagens?.length ? lugar.imagens : ["/assets/imagem_nao_disponível.jpg"];
   const proximaImagem = () => setImgIndex((prev) => (prev + 1) % imagens.length);
   const imagemAnterior = () => setImgIndex((prev) => (prev - 1 + imagens.length) % imagens.length);
    return (
@@ -69,13 +69,13 @@ export default function CardLugar({ lugar }: Props) {
                 backgroundColor: "red",
                 color: "#fff",
                 border: "none",
-                borderRadius: "50%",
-                width: "30px",
-                height: "30px",
+                // borderRadius: "50%",
+                // width: "30px",
+                // height: "30px",
                 cursor: "pointer",
               }}
             >
-              ‹
+              <i className="bi bi-caret-left-square-fill"></i>
             </button>
             <button
               onClick={proximaImagem}
@@ -87,13 +87,13 @@ export default function CardLugar({ lugar }: Props) {
                 backgroundColor: "red",
                 color: "#fff",
                 border: "none",
-                borderRadius: "50%",
-                width: "30px",
-                height: "30px",
+                // borderRadius: "50%",
+                // width: "30px",
+                // height: "30px",
                 cursor: "pointer",
               }}
             >
-              ›
+             <i className="bi bi-caret-right-square-fill"></i>
             </button>
           </>
         )}
