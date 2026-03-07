@@ -59,47 +59,35 @@ export default function CardLugar({ lugar }: Props) {
         {/* Controles do carrossel, só aparecem quando não está mostrando o mapa */}
         {!mostrarMapa && imagens.length > 1 && (
           <>
-            <button
-              onClick={imagemAnterior}
-              style={{
-                position: "absolute",
-                top: "50%",
-                left: "10px",
-                transform: "translateY(-50%)",
-                backgroundColor: "red",
-                color: "#fff",
-                border: "none",
-                // borderRadius: "50%",
-                // width: "30px",
-                // height: "30px",
-                cursor: "pointer",
-              }}
-            >
-              <i className="bi bi-caret-left-square-fill"></i>
-            </button>
-            <button
-              onClick={proximaImagem}
-              style={{
+           
+              <i className="bi bi-caret-left-square-fill trocar-imagem-icon"
+                onClick={imagemAnterior}
+             style={{
                 position: "absolute",
                 top: "50%",
                 right: "10px",
                 transform: "translateY(-50%)",
-                backgroundColor: "red",
-                color: "#fff",
+                backgroundColor: "none",
                 border: "none",
-                // borderRadius: "50%",
-                // width: "30px",
-                // height: "30px",
                 cursor: "pointer",
-              }}
-            >
-             <i className="bi bi-caret-right-square-fill"></i>
-            </button>
+              }}></i>
+               <i className="bi bi-caret-right-fill trocar-imagem-icon"
+             onClick={proximaImagem}
+             style={{
+                position: "absolute",
+                top: "50%",
+                right: "10px",
+                transform: "translateY(-50%)",
+                backgroundColor: "none",
+                border: "none",
+                cursor: "pointer",
+              }}></i>
+            
+            
           </>
         )}
       </div>
       <h3>{lugar.nome}</h3>
-<i className="bi bi-caret-left-square-fill"></i>
       <p>{lugar.descricao}</p>
       <p>{lugar.endereco}</p>
       <p>{lugar.telefone}</p>

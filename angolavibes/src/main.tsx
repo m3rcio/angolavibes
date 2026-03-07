@@ -8,7 +8,6 @@ import React from 'react';
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { AuthProvider } from "./context/AuthContext.tsx";
 const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-console.log(googleClientId)
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   

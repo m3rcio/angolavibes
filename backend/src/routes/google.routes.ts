@@ -67,7 +67,7 @@ googleRoutes.get("/places", async (req, res) => {
       const horario_abertura = formatTime(openPeriod?.open?.hour, openPeriod?.open?.minute);
       const horario_fechamento = formatTime(openPeriod?.close?.hour, openPeriod?.close?.minute);
 
-      // 1️⃣ Verifica se o lugar já existe
+      // Verifica se o lugar já existe
       const [existing] = await db.query<RowDataPacket[]>(
         "SELECT id FROM lugares WHERE google_place_id = ?",
         [place.id]
@@ -131,7 +131,8 @@ googleRoutes.get("/places", async (req, res) => {
       FROM lugares l
       LEFT JOIN lugar_imagens li 
         ON li.lugar_id = l.id
-    `);
+        WHERE l.nome LIKE ?
+        `, [`%${query}%`]);
 
     const lugaresMap = new Map<number, any>();
     rows.forEach((row) => {

@@ -7,7 +7,7 @@ import LoginModal from './components/LoginModal/LoginModal'
 import SignupModal from './components/SignupModal/SignupModal'
 import { lugarCategoriaMock } from './data/LugarCategoriaMock'
 import CardLugar from './components/CardLugar/CardLugar'
-
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 
 function App() {
