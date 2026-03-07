@@ -59,13 +59,12 @@ export default function CardLugar({ lugar }: Props) {
         {/* Controles do carrossel, só aparecem quando não está mostrando o mapa */}
         {!mostrarMapa && imagens.length > 1 && (
           <>
-           
-              <i className="bi bi-caret-left-square-fill trocar-imagem-icon"
+              <i className="bi bi-caret-left-fill trocar-imagem-icon"
                 onClick={imagemAnterior}
              style={{
                 position: "absolute",
                 top: "50%",
-                right: "10px",
+                left: "10px",
                 transform: "translateY(-50%)",
                 backgroundColor: "none",
                 border: "none",
