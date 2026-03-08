@@ -86,3 +86,28 @@
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
+.header-resultados {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 0 10px;
+}
+
+.btn-voltar {
+  background: #e91717;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #ffffff;
+  transition: all 0.2s;
+}
+
+.btn-voltar:hover {
+  background: #e0e0e0;
+  color: #222;
+  transform: translateX(-5px); 
+}

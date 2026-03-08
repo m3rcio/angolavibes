@@ -84,11 +84,12 @@ function App() {
 (<div className="loader-container">
       <div className="spinner"></div>
     </div>
-  ) : (lugares.length > 0 ? <div className="container">
+  ) : (lugares.length > 0 ? 
+  <div className="container">
     <div className="header-resultados">
         <h2>Resultados encontrados</h2>
         <button className="btn-voltar" onClick={limparBusca}>
-          ← Voltar para categorias
+          ← Voltar 
         </button>
       </div>
         {lugares.map((lugar) => (
@@ -99,7 +100,7 @@ function App() {
       <img src={local.imagem} alt={local.nome} />
       <h2>{local.nome}</h2>
     </div>
-  )))}
+  ))) }
 
   {/* {lugares.length > 0 ? <div className="container">
         {lugares.map((lugar) => (
