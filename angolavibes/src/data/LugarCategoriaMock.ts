@@ -4,22 +4,22 @@ import type { LugarCategoria } from "../models/LugarCategoria";
 export const lugarCategoriaMock: LugarCategoria[] = [
   {
     id: 1,
-    nome: "Restaurantes",
+    nome: "Restaurante",
     imagem: "/assets/categorias/restaurante2.webp"
   },
   {
     id: 2,
-    nome: "Safaris",
+    nome: "Safari",
     imagem: "/assets/categorias/safari.webp"
   },
   {
     id: 3,
-    nome: "Praias",
+    nome: "Praia",
     imagem: "/assets/categorias/praias.webp"
   },
     {
     id: 4,
-    nome: "Shoppings",
+    nome: "Shopping",
     imagem: "/assets/categorias/shopping.webp"
     }
 ];
