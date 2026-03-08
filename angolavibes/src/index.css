@@ -6,13 +6,13 @@
 
 @font-face {
   font-family: 'Geomanist-Regular';
-  src: url('/angolavibes/public/assets/fonts/Geomanist-Regular.otf') format('truetype');
-  font-weight: bold;
+  src: url('./assets/fonts/Geomanist-Regular.otf') format('opentype');
+  font-weight: normal;
   font-style: normal;
 }
 
-body{
-  font-family: 'Geomanist-Regular', sans-serif;
+body {
+  font-family: 'Geomanist-Regular', sans-serif !important;
 }
 
 :root {
@@ -53,12 +53,6 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
+
 
 
