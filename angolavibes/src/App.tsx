@@ -8,6 +8,7 @@ import SignupModal from './components/SignupModal/SignupModal'
 import { lugarCategoriaMock } from './data/LugarCategoriaMock'
 import CardLugar from './components/CardLugar/CardLugar'
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import axios from 'axios'
 
 
 function App() {
@@ -33,9 +34,27 @@ function App() {
   }
 
   function onLogoutClick() {
-    
   }
 
+  async function realizarBusca(termo: string) {
+  if (!termo.trim()) return;
+
+  try {
+    setLugares([]); 
+    const response = await axios.get('http://localhost:5000/api/places', {
+      params: { query: termo }
+    });
+    
+    const lugaresComImagens = response.data.map((lugar: Lugar) => ({
+      ...lugar,
+      imagens: lugar.imagens?.length ? lugar.imagens : []
+    }));
+    
+    setLugares(lugaresComImagens);
+  } catch (error) {
+    console.error("Erro na busca:", error);
+  }
+}
   return (
     <>
   <Navbar
@@ -57,7 +76,7 @@ function App() {
           <CardLugar key={lugar.google_place_id} lugar={lugar} />
         ))}
       </div> : lugarCategoriaMock.map((local) => (
-    <div key={local.id} className="card">
+    <div key={local.id} className="card" onClick={() => realizarBusca(local.nome)}>
       <img src={local.imagem} alt={local.nome} />
       <h2>{local.nome}</h2>
     </div>
