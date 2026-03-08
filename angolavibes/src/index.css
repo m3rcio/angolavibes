@@ -6,7 +6,7 @@
 
 @font-face {
   font-family: 'Geomanist-Regular';
-  src: url('./assets/fonts/Geomanist-Regular.otf') format('truetype');
+  src: url('/angolavibes/public/assets/fonts/Geomanist-Regular.otf') format('truetype');
   font-weight: bold;
   font-style: normal;
 }
