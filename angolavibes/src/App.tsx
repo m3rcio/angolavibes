@@ -14,6 +14,7 @@ function App() {
   const [loginOpen,setLoginOpen]=useState(false);
   const [signupOpen,setSignupOpen]=useState(false);
   const [lugares, setLugares] = useState<Lugar[]>([]);
+  const [loading,setLoading]= useState(false);
 
    function onLoginClick() {
     setLoginOpen(true);
