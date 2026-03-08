@@ -2,6 +2,7 @@
   width: 100%;
   margin: 0 auto;
   text-align: center;
+  font-family: Geomanist;
 }
 
 
@@ -77,7 +78,7 @@
   width: 50px;
   height: 50px;
   border: 5px solid rgba(0, 0, 0, 0.1);
-  border-left-color: #3498db; /* Cor do destaque */
+  border-left-color: #f12244; /* Cor do destaque */
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }

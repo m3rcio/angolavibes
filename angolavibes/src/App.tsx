@@ -36,6 +36,10 @@ function App() {
   function onLogoutClick() {
   }
 
+  function limparBusca(){
+    setLugares([])
+  }
+
   async function realizarBusca(termo: string) {
   if (!termo.trim()) return;
 
@@ -81,6 +85,12 @@ function App() {
       <div className="spinner"></div>
     </div>
   ) : (lugares.length > 0 ? <div className="container">
+    <div className="header-resultados">
+        <h2>Resultados encontrados</h2>
+        <button className="btn-voltar" onClick={limparBusca}>
+          ← Voltar para categorias
+        </button>
+      </div>
         {lugares.map((lugar) => (
           <CardLugar key={lugar.google_place_id} lugar={lugar} />
         ))}
