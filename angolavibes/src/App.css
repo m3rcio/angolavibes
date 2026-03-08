@@ -28,6 +28,8 @@
 }
 
 .card {
+  color:white;
+  position: relative;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
@@ -38,7 +40,7 @@
 }
 
 .card h3 {
-  z-index: 999;
+  z-index: 1000;
 }
 
 .card img {
