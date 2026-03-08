@@ -58,7 +58,7 @@ function App() {
       </div> : lugarCategoriaMock.map((local) => (
     <div key={local.id} className="card">
       <img src={local.imagem} alt={local.nome} />
-      <h3>{local.nome}</h3>
+      <h2>{local.nome}</h2>
     </div>
   ))}
 </section>

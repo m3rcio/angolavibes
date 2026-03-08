@@ -34,12 +34,16 @@
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   height: 180px;
-  color: black;
   cursor: pointer;
 }
 
-.card h3 {
-  z-index: 1000;
+.card h2 {
+  position:absolute;
+  bottom: 10px;       
+  left: 15px;         
+  margin: 0;
+  z-index: 10;        
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.7); 
 }
 
 .card img {
