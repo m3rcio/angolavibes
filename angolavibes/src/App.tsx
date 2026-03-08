@@ -40,6 +40,7 @@ function App() {
   if (!termo.trim()) return;
 
   try {
+    setLoading(true)
     setLugares([]); 
     const response = await axios.get('http://localhost:5000/api/places', {
       params: { query: termo }
@@ -50,9 +51,12 @@ function App() {
       imagens: lugar.imagens?.length ? lugar.imagens : []
     }));
     
+    
     setLugares(lugaresComImagens);
   } catch (error) {
     console.error("Erro na busca:", error);
+  }finally {
+    setLoading(false); 
   }
 }
   return (
@@ -65,7 +69,7 @@ function App() {
 
   <section className="hero">
     <Routes>
-      <Route path="/" element={<Descobrir setLugares={setLugares} />} />
+      <Route path="/" element={<Descobrir onBuscar={realizarBusca} />} />
     </Routes>
   </section>
 

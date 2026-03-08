@@ -16,52 +16,80 @@ export interface Lugar {
   imagens: string[];
 }
 
-interface Props {
-  setLugares: React.Dispatch<React.SetStateAction<Lugar[]>>;
-}
+// interface Props {
+//   setLugares: React.Dispatch<React.SetStateAction<Lugar[]>>;
+// }
 
- function Descobrir({ setLugares}: Props){
-  const [texto, setTexto] = useState('');
+//  function Descobrir({ setLugares}: Props){
+//   const [texto, setTexto] = useState('');
 
-  async function buscarLugares() {
-    if(!texto.trim()) return;
+//   async function buscarLugares() {
+//     if(!texto.trim()) return;
 
-    try{
-      setLugares([]); 
-      const response= await axios.get('http://localhost:5000/api/places', {
-  params: {
-    query: texto
-  }
-});
-      const lugaresComImagens = response.data.map((lugar: Lugar) => ({
-  ...lugar,
-  imagens: lugar.imagens?.length ? lugar.imagens : []
-}));
-console.log(response.data[0].imagens);
-setLugares(lugaresComImagens);
-    }catch(error){
-      console.error(error);
-      console.log(error);
-    }
-  }
+//     try{
+//       setLugares([]); 
+//       const response= await axios.get('http://localhost:5000/api/places', {
+//   params: {
+//     query: texto
+//   }
+// });
+//       const lugaresComImagens = response.data.map((lugar: Lugar) => ({
+//   ...lugar,
+//   imagens: lugar.imagens?.length ? lugar.imagens : []
+// }));
+// console.log(response.data[0].imagens);
+// setLugares(lugaresComImagens);
+//     }catch(error){
+//       console.error(error);
+//       console.log(error);
+//     }
+//   }
 
-   function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (e.key === "Enter") {
-      buscarLugares();
-    }
-  }
+//    function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+//     if (e.key === "Enter") {
+//       buscarLugares();
+//     }
+//   }
 
  
-    return(
-         <div className="descobrir-div">
-  <div className="input-wrapper">
-    <InputBuscar value={texto} onChange={setTexto} 
-     onBuscar={buscarLugares} />
-    <BotaoBuscar onBuscar={buscarLugares} />
-  </div>
+//     return(
+//          <div className="descobrir-div">
+//   <div className="input-wrapper">
+//     <InputBuscar value={texto} onChange={setTexto} 
+//      onBuscar={buscarLugares} />
+//     <BotaoBuscar onBuscar={buscarLugares} />
+//   </div>
   
-</div>
-    )
- }
+// </div>
+//     )
+//  }
+
+interface Props {
+  onBuscar: (termo: string) => void; 
+}
+
+function Descobrir({ onBuscar }: Props) {
+  const [texto, setTexto] = useState('');
+
+  const iniciarBusca = () => onBuscar(texto);
+
+  // function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+  //   if (e.key === "Enter") iniciarBusca();
+  // }
+
+  return (
+    <div className="descobrir-div">
+      <div className="input-wrapper">
+        <InputBuscar 
+          value={texto} 
+          onChange={setTexto} 
+          // onKeyDown={handleKeyDown} 
+          onBuscar={iniciarBusca} 
+        />
+        <BotaoBuscar onBuscar={iniciarBusca} />
+      </div>
+    </div>
+  );
+}
  
 export default Descobrir
