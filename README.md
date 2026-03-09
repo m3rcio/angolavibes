@@ -2,10 +2,10 @@
 AngolaVibes, uma plataforma web para descobrir restaurantes, shopping e outros lugares de lazer em Luanda.
 
 Tech stack:
-Frontend: React + TypeScript
-Backend: Node + Express
-Base de dados: MySQL
-API: Google Places API
+ <br>Frontend: React + TypeScript
+ <br>Backend: Node + Express
+ <br>Base de dados: MySQL
+ <br>API: Google Places API
 
 
 Features:
