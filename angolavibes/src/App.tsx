@@ -102,16 +102,6 @@ function App() {
     </div>
   ))) }
 
-  {/* {lugares.length > 0 ? <div className="container">
-        {lugares.map((lugar) => (
-          <CardLugar key={lugar.google_place_id} lugar={lugar} />
-        ))}
-      </div> : lugarCategoriaMock.map((local) => (
-    <div key={local.id} className="card" onClick={() => realizarBusca(local.nome)}>
-      <img src={local.imagem} alt={local.nome} />
-      <h2>{local.nome}</h2>
-    </div>
-  ))} */}
 </section>
 
   <LoginModal isOpen={loginOpen} onClose={closeLogin} />

@@ -6,3 +6,14 @@
   position: relative;
   width: 400px; 
 }
+
+h1{
+  color:white;
+  text-shadow: black;
+  margin-bottom: 30px;
+  border-bottom: 3px solid red;
+}
+
+/* .text-background{
+  border-bottom: 3px solid red;
+} */

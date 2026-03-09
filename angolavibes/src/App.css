@@ -87,7 +87,7 @@ body {
   width: 50px;
   height: 50px;
   border: 5px solid rgba(0, 0, 0, 0.1);
-  border-left-color: #f12244; /* Cor do destaque */
+  border-left-color: #f12244; 
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
