@@ -9,6 +9,7 @@ import { lugarCategoriaMock } from './data/LugarCategoriaMock'
 import CardLugar from './components/CardLugar/CardLugar'
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import axios from 'axios'
+import Footer from './components/Footer/Footer'
 
 
 function App() {
@@ -103,6 +104,8 @@ function App() {
   ))) }
 
 </section>
+
+<Footer></Footer>
 
   <LoginModal isOpen={loginOpen} onClose={closeLogin} />
   <SignupModal isOpen={signupOpen} onClose={closeSignup} />
