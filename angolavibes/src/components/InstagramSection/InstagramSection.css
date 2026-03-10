@@ -41,3 +41,7 @@
 .alto{
   grid-row: span 2;
 }
+
+.instagram-grid img:hover{
+  filter:brightness(0.8);
+}
