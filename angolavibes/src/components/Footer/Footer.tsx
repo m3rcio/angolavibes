@@ -4,60 +4,130 @@ export default function Footer() {
       style={{
         backgroundColor: "#f12d2d",
         color: "#fff",
-        padding: "40px 20px",
+        padding: "50px 20px",
         marginTop: "60px",
       }}
     >
       <div
         style={{
-          maxWidth: "1100px",
+          maxWidth: "1200px",
           margin: "0 auto",
           display: "grid",
-          gridTemplateColumns: "1fr 1fr 1fr",
-          gap: "30px",
+          gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))",
+          gap: "40px",
         }}
       >
         {/* Logo / descrição */}
         <div>
-          <h2 style={{ color: "#ffffff" }}>AngolaVibes</h2>
-          <p style={{ opacity: 0.8 }}>
+          <h2 style={{ marginBottom: "10px" }}>AngolaVibes</h2>
+          <p style={{ opacity: 0.9, lineHeight: "1.5" }}>
             Descubra restaurantes, parques, ginásios e lugares incríveis em
-            Luanda.
+            Luanda. Explore novas experiências e aproveite o melhor da cidade.
           </p>
         </div>
 
-        {/* Links */}
+        {/* Explorar */}
         <div>
-          <h3>Explorar</h3>
-          <ul style={{ listStyle: "none", padding: 0 }}>
+          <h3 style={{ marginBottom: "10px" }}>Explorar</h3>
+          <ul
+            style={{
+              listStyle: "none",
+              padding: 0,
+              lineHeight: "2",
+              cursor: "pointer",
+            }}
+          >
             <li>Restaurantes</li>
             <li>Parques</li>
             <li>Ginásios</li>
             <li>Shopping</li>
+            <li>Praias</li>
           </ul>
         </div>
 
-        {/* Redes sociais */}
+        {/* Links úteis */}
         <div>
-          <h3>Redes sociais</h3>
-          <div style={{ display: "flex", gap: "15px", fontSize: "22px" }}>
-            <i className="bi bi-instagram"></i>
-            <i className="bi bi-facebook"></i>
-            <i className="bi bi-twitter-x"></i>
-            <i className="bi bi-youtube"></i>
+          <h3 style={{ marginBottom: "10px" }}>Links úteis</h3>
+          <ul
+            style={{
+              listStyle: "none",
+              padding: 0,
+              lineHeight: "2",
+              cursor: "pointer",
+            }}
+          >
+            <li>Sobre nós</li>
+            <li>Contato</li>
+            <li>Política de privacidade</li>
+            <li>Termos de uso</li>
+          </ul>
+        </div>
+
+        {/* Newsletter */}
+        <div>
+          <h3 style={{ marginBottom: "10px" }}>Receba novidades</h3>
+          <p style={{ fontSize: "14px", opacity: 0.9 }}>
+            Receba dicas de lugares e novidades em Luanda.
+          </p>
+
+          <div
+            style={{
+              display: "flex",
+              marginTop: "10px",
+            }}
+          >
+            <input
+              type="email"
+              placeholder="Seu email"
+              style={{
+                padding: "8px",
+                border: "none",
+                borderRadius: "4px 0 0 4px",
+                outline: "none",
+                flex: 1,
+              }}
+            />
+            <button
+              style={{
+                padding: "8px 14px",
+                border: "none",
+                backgroundColor: "#000",
+                color: "#fff",
+                borderRadius: "0 4px 4px 0",
+                cursor: "pointer",
+              }}
+            >
+              Enviar
+            </button>
           </div>
         </div>
+      </div>
+
+      {/* redes sociais */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          gap: "20px",
+          marginTop: "40px",
+          fontSize: "22px",
+        }}
+      >
+        <i className="bi bi-instagram" style={{ cursor: "pointer" }}></i>
+        <i className="bi bi-facebook" style={{ cursor: "pointer" }}></i>
+        <i className="bi bi-twitter-x" style={{ cursor: "pointer" }}></i>
+        <i className="bi bi-youtube" style={{ cursor: "pointer" }}></i>
       </div>
 
       {/* Copyright */}
       <div
         style={{
-          borderTop: "1px solid #333",
+          borderTop: "1px solid rgba(255,255,255,0.3)",
           marginTop: "30px",
           paddingTop: "15px",
           textAlign: "center",
           fontSize: "14px",
-          opacity: 0.7,
+          opacity: 0.9,
         }}
       >
         © {new Date().getFullYear()} AngolaVibes — Todos os direitos reservados
