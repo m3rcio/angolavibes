@@ -2,7 +2,7 @@ export default function Footer() {
   return (
     <footer
       style={{
-        backgroundColor: "#111",
+        backgroundColor: "#f12d2d",
         color: "#fff",
         padding: "40px 20px",
         marginTop: "60px",
@@ -19,7 +19,7 @@ export default function Footer() {
       >
         {/* Logo / descrição */}
         <div>
-          <h2 style={{ color: "#e63946" }}>AngolaVibes</h2>
+          <h2 style={{ color: "#ffffff" }}>AngolaVibes</h2>
           <p style={{ opacity: 0.8 }}>
             Descubra restaurantes, parques, ginásios e lugares incríveis em
             Luanda.
