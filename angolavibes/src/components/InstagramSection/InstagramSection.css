@@ -1,0 +1,43 @@
+.instagram-section{
+  margin-top:60px;
+  text-align:center;
+}
+
+.instagram-section h2{
+  font-size:28px;
+  margin-bottom:5px;
+}
+
+.instagram-section p{
+  color:#777;
+  margin-bottom:30px;
+}
+
+.instagram-grid{
+  display:grid;
+  grid-template-columns: repeat(4,1fr);
+  grid-auto-rows: 150px;
+  gap:10px;
+}
+
+.instagram-grid img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:8px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.instagram-grid img:hover{
+  transform:scale(1.05);
+}
+
+.grande{
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.alto{
+  grid-row: span 2;
+}

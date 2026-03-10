@@ -10,6 +10,7 @@ import CardLugar from './components/CardLugar/CardLugar'
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import axios from 'axios'
 import Footer from './components/Footer/Footer'
+import InstagramSection from './components/InstagramSection/InstagramSection'
 
 
 function App() {
@@ -104,7 +105,7 @@ function App() {
   ))) }
 
 </section>
-
+<InstagramSection></InstagramSection>
 <Footer></Footer>
 
   <LoginModal isOpen={loginOpen} onClose={closeLogin} />
