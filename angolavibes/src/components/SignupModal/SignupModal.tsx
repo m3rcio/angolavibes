@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "./SignupModal.css";
 import { GoogleLogin } from "@react-oauth/google";
 import { handleGoogleLogin } from "../../hooks/handleGoogleLogin";
-
+import api from "../../services/api";
+import { AuthContext } from "../../context/AuthContext";
 type SignupModalProps = {
   isOpen: boolean;
   onClose: () => void;
@@ -16,7 +17,7 @@ const [email,setEmail]=useState("");
 const [senha,setSenha]=useState("");
 const [loading,setLoading]=useState(false);
 const [error,setError]=useState("");
-  
+const {signup} = useContext(AuthContext);  
   async function handleSignup() {
     setError("");
 
@@ -28,22 +29,11 @@ const [error,setError]=useState("");
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/api/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          nome,
-          email,
-          senha
-        })
-      });
+     await signup(nome,email,senha);
 
-      const data = await response.json();
 
-      if (!response.ok) {
-        setError(data.message || "Erro ao criar conta");
+      if (response.status != 200) {
+        setError(response.data.message || "Erro ao criar conta");
         return;
       }
 
@@ -74,10 +64,6 @@ const [error,setError]=useState("");
           <a href="#">Política de Privacidade</a>.
         </p>
 
-        {/* <button className="social-btn google">
-          <span className="icon">G</span>
-          Continuar com Google
-        </button> */}
         <GoogleLogin
   onSuccess={credentialResponse => {
     handleGoogleLogin(credentialResponse.credential);
@@ -86,11 +72,6 @@ const [error,setError]=useState("");
     console.log("Login Google falhou");
   }}
 />
-
-        <button className="social-btn facebook">
-          <span className="icon">f</span>
-          Continuar com Facebook
-        </button>
 
         <button className="social-btn ">
           <span className="icon">f</span>

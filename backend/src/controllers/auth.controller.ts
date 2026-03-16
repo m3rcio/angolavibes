@@ -19,7 +19,7 @@ export async function signup(req: Request,res:Response){
         return res.status(400).json({message:"senha fraca!"})
     }
     try{
-        const[rows]:any=await db.query(
+        const [rows]:any=await db.query(
             "SELECT id from usuarios where email=?",[email]
         );
 
