@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { Lugar } from "../../pages/Descobrir/Descobrir";
 import "./CardLugar.css";
+import api from "../../services/api";
 interface Props {
   lugar: Lugar;
 }
@@ -8,6 +9,8 @@ interface Props {
 export default function CardLugar({ lugar }: Props) {
   const [mostrarMapa, setMostrarMapa] = useState(false);
   const [imgIndex, setImgIndex] = useState(0);
+  const [salvo,setSalvo]= useState(false);
+
 
   const mapaUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${lugar.latitude},${lugar.longitude}&zoom=15&size=600x300&markers=color:red%7C${lugar.latitude},${lugar.longitude}&key=${
     import.meta.env.VITE_GOOGLE_MAPS_KEY
@@ -16,6 +19,16 @@ export default function CardLugar({ lugar }: Props) {
   const imagens = lugar.imagens?.length ? lugar.imagens : ["/assets/imagem_nao_disponível.jpg"];
   const proximaImagem = () => setImgIndex((prev) => (prev + 1) % imagens.length);
   const imagemAnterior = () => setImgIndex((prev) => (prev - 1 + imagens.length) % imagens.length);
+
+  async function salvarLugar(id:string){
+    const response = await api.post('/lugar/criar',{id});
+    
+    try{
+
+    }catch(error){
+      console.error(error);
+    }
+  }
    return (
     <div
       style={{
@@ -82,7 +95,9 @@ export default function CardLugar({ lugar }: Props) {
                 cursor: "pointer",
               }}></i>
             
-            
+            <button onClick={ ()=> salvarLugar(lugar.google_place_id)}>
+              Guardar Lugar
+            </button>
           </>
         )}
       </div>
