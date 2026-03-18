@@ -16,5 +16,6 @@ const app=Router();
           res.json(response)
         }catch(error){
             console.error(error);
+            res.status(500).json({error:"erro ao buscar lugares"})
         }
      })

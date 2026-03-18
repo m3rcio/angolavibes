@@ -9,7 +9,7 @@ interface Props {
 export default function CardLugar({ lugar }: Props) {
   const [mostrarMapa, setMostrarMapa] = useState(false);
   const [imgIndex, setImgIndex] = useState(0);
-  const [salvo,setSalvo]= useState(false);
+  const [favorito,setFavorito]= useState(false);
 
 
   const mapaUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${lugar.latitude},${lugar.longitude}&zoom=15&size=600x300&markers=color:red%7C${lugar.latitude},${lugar.longitude}&key=${
@@ -20,8 +20,8 @@ export default function CardLugar({ lugar }: Props) {
   const proximaImagem = () => setImgIndex((prev) => (prev + 1) % imagens.length);
   const imagemAnterior = () => setImgIndex((prev) => (prev - 1 + imagens.length) % imagens.length);
 
-  async function salvarLugar(id:string){
-    const response = await api.post('/lugar/criar',{id});
+  async function salvarLugar(id:string,usuario_id:string){
+    const response = await api.post('/lugar/criar',{id,usuario_id});
     
     try{
 
