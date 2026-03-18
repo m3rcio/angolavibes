@@ -20,11 +20,12 @@ export default function CardLugar({ lugar }: Props) {
   const proximaImagem = () => setImgIndex((prev) => (prev + 1) % imagens.length);
   const imagemAnterior = () => setImgIndex((prev) => (prev - 1 + imagens.length) % imagens.length);
 
-  async function salvarLugar(id:string,usuario_id:string){
-    const response = await api.post('/lugar/criar',{id,usuario_id});
+  async function salvarLugar(id:number,usuario_id:string){
+    setFavorito(false)
+    const response = await api.post('/lugar/favoritar',{id,usuario_id});
     
     try{
-
+      console.log(response.status);
     }catch(error){
       console.error(error);
     }
@@ -95,7 +96,7 @@ export default function CardLugar({ lugar }: Props) {
                 cursor: "pointer",
               }}></i>
             
-            <button onClick={ ()=> salvarLugar(lugar.google_place_id)}>
+            <button onClick={ ()=> salvarLugar(lugar.id,)}>
               Guardar Lugar
             </button>
           </>

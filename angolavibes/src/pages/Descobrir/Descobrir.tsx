@@ -5,6 +5,7 @@ import InputBuscar from '../../components/InputBuscar';
 import axios from "axios";
 
 export interface Lugar {
+  id:number;
   google_place_id: string;
   nome: string;
   descricao: string;
