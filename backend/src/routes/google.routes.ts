@@ -99,11 +99,10 @@ googleRoutes.get("/places", async (req, res) => {
         lugarIdInterno = result.insertId;
       }
 
-      // 2️⃣ Inserir imagens (limitadas a 5)
       if (place.photos?.length) {
         const fotosLimitadas = place.photos.slice(0, 5);
         for (const photo of fotosLimitadas) {
-          const photoReference = photo.name.split("/").pop(); // pega só o PHOTO_REFERENCE
+          const photoReference = photo.name.split("/").pop(); 
           const urlCompleta = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=${photoReference}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
           await db.execute(
             `INSERT INTO lugar_imagens (lugar_id, imagem_url)
@@ -115,7 +114,7 @@ googleRoutes.get("/places", async (req, res) => {
       }
     }
 
-    // 3️⃣ Buscar lugares com imagens
+   
     const [rows] = await db.query<LugarJoinRow[]>(`
       SELECT 
         l.id,
