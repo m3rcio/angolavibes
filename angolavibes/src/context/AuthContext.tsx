@@ -34,7 +34,7 @@ export const AuthProvider = ({children}:any)=>{
   };
 
   const logout = async ()=>{
-    await api.post("http://localhost:5000/api/auth/logout");
+    await api.post("/api/auth/logout");
     setAccessToken(null);
     setUser(null);
   };

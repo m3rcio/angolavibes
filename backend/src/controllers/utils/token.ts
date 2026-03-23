@@ -16,6 +16,15 @@ export function generateRefreshToken(user:{ id: string; email: string }) {
     process.env.JWT_REFRESH_SECRET as string,
     { expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN as jwt.SignOptions["expiresIn"]}
   );
+
+  res.cookie("refreshToken", token,{
+    httpOnly:true,
+    secure: process.env.NODE_ENV==="production",
+    sameSite:"strict",
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  });
+
+  return token;
 }
 
 
