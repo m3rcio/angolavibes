@@ -35,9 +35,11 @@ export async function signup(req: Request,res:Response){
       [nome, email, senhaHash, tipo || "usuario"]
     );
 
-    const accessToken= generateAccessToken(user);
-    generateRefreshToken(user);
-    return res.status(201).json({message: "Usuário criado com sucesso", accessToken,user});
+    const usuarioMontado = { id: result.insertId, email };
+
+    const accessToken= generateAccessToken(usuarioMontado);
+    generateRefreshToken(usuarioMontado);
+    return res.status(201).json({message: "Usuário criado com sucesso", accessToken,usuarioMontado});
 
     }catch(error){
         console.error(error);
@@ -71,8 +73,8 @@ export async function login(req:Request,res:Response){
 
     
   const accessToken = generateAccessToken(user);
-  generateRefreshToken(user);
-
+  const refreshToken= generateRefreshToken(user,res);
+  await saveRefreshToken(user.id, refreshToken);
 
 
     return res.json({
@@ -92,6 +94,12 @@ export async function login(req:Request,res:Response){
 }
 
 export async function logout(req:Request,res:Response){
+  const refreshToken= req.cookies?.refreshToken;
+
+   if (refreshToken) {
+    await deleteRefreshToken(refreshToken); 
+  }
+
   res.clearCookie("refreshToken",{
     httpOnly:true,
     secure: process.env.NODE_ENV === "production",
