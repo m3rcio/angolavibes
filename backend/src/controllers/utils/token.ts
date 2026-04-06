@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import dotenv from 'dotenv';
+import { Response } from "express";
 dotenv.config();
 
 export function generateAccessToken(user:{ id: string; email: string }) {
@@ -10,8 +11,8 @@ export function generateAccessToken(user:{ id: string; email: string }) {
   );
 }
 
-export function generateRefreshToken(user:{ id: string; email: string }) {
-  return jwt.sign(
+export function generateRefreshToken(user:{ id: string; email: string },res:Response) {
+  const token= jwt.sign(
     { id: user.id },
     process.env.JWT_REFRESH_SECRET as string,
     { expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN as jwt.SignOptions["expiresIn"]}
