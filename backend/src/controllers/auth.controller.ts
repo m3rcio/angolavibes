@@ -4,6 +4,8 @@ import { db } from "../database/connection";
 import { OAuth2Client } from "google-auth-library";
 import jwt from "jsonwebtoken";
 import { generateAccessToken, generateRefreshToken } from "./utils/token";
+import { deleteRefreshToken, saveRefreshToken } from "../models/refreshToken.model";
+import { resourceLimits } from "node:worker_threads";
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -35,10 +37,10 @@ export async function signup(req: Request,res:Response){
       [nome, email, senhaHash, tipo || "usuario"]
     );
 
-    const usuarioMontado = { id: result.insertId, email };
+    const usuarioMontado = { id: user.insertId, email };
 
     const accessToken= generateAccessToken(usuarioMontado);
-    generateRefreshToken(usuarioMontado);
+    generateRefreshToken(usuarioMontado,res);
     return res.status(201).json({message: "Usuário criado com sucesso", accessToken,usuarioMontado});
 
     }catch(error){
@@ -46,7 +48,7 @@ export async function signup(req: Request,res:Response){
         return res.status(500).json({message: "Erro interno do servidor"});
     }
 }
-
+ 
 export async function login(req:Request,res:Response){
     const {email,senha}=req.body;
 
