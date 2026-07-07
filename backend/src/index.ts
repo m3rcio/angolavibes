@@ -3,12 +3,13 @@ import cors from "cors";
 import dotenv from "dotenv";
 import authRoutes from "./routes/auth.routes";
 import googleRoutes from "./routes/google.routes";
-
+let cookieParser= require('cookie-parser');
 // import userRoutes from "./routes/usuario.routes";
 
 dotenv.config();
 
 const app=express();
+app.use(cookieParser())
 const PORT = process.env.PORT || 5000;
 
 app.use(cors({

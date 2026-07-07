@@ -5,14 +5,14 @@ const api = axios.create({
   withCredentials: true
 });
 
-let accessToken:string | null = null;
+let accessToken: string | null = null;
 
-export const setAccessToken = (token:string|null)=>{
+export const setAccessToken = (token: string | null) => {
   accessToken = token;
 };
 
-api.interceptors.request.use(config=>{
-  if(accessToken){
+api.interceptors.request.use(config => {
+  if (accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;
   }
   return config;
@@ -20,18 +20,32 @@ api.interceptors.request.use(config=>{
 
 api.interceptors.response.use(
   res => res,
-  async error=>{
-    if(error.response?.status === 401){
-      try{
-        const res = await api.post("/auth/refresh");
+  async error => {
+    const originalRequest = error.config;
+
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      !originalRequest.url.includes("/api/auth/refresh")
+    ) {
+      originalRequest._retry = true;
+
+      try {
+        const res = await api.post("/api/auth/refresh");
+
         setAccessToken(res.data.accessToken);
-        error.config.headers.Authorization =
+
+        originalRequest.headers.Authorization =
           `Bearer ${res.data.accessToken}`;
-        return api(error.config);
-      }catch{
-        window.location.href="/login";
+
+        return api(originalRequest);
+
+      } catch {
+        setAccessToken(null);
+        await api.post("/api/auth/logout");
       }
     }
+
     return Promise.reject(error);
   }
 );

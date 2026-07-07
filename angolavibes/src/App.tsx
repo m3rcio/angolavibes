@@ -76,6 +76,9 @@ function App() {
   <section className="hero">
     <Routes>
       <Route path="/" element={<Descobrir onBuscar={realizarBusca} />} />
+      <Route path="/login" element={<LoginModal isOpen={false} onClose={function (): void {
+            throw new Error('Function not implemented.')
+          } } />} />
     </Routes>
   </section>
 

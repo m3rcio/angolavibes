@@ -1,12 +1,15 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { generateAccessToken } from "./token";
+import { generateAccessToken, generateRefreshToken } from "./token";
 import { db } from "../../database/connection";
 
 export async function refreshTokenController(req:Request,res:Response){
-    const {refreshToken}=req.body;
+    // const {refreshToken}=req.body;
 
-    if(!refreshToken) return res.status(401).json({message:"Token de atualização não fornecido"});
+    // if(!refreshToken) return res.status(401).json({message:"Token de atualização não fornecido"});
+    const refreshToken=req.cookies.refreshToken;
+
+    if(!refreshToken) return res.status(401).json({message:"token de atualização não fornecido!"});
 
     try{
           const payload = jwt.verify(
@@ -22,7 +25,7 @@ export async function refreshTokenController(req:Request,res:Response){
         }
 
         const newAccessToken = generateAccessToken(user);
-
+        generateRefreshToken(user,res);
         res.json({ accessToken: newAccessToken });
 
     }catch (err) {

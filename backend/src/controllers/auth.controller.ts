@@ -79,6 +79,12 @@ export async function login(req:Request,res:Response){
   await saveRefreshToken(user.id, refreshToken);
 
 
+     res.cookie("refreshToken",refreshToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+    });
+
     return res.json({
       accessToken,
       user: {
@@ -89,6 +95,8 @@ export async function login(req:Request,res:Response){
         foto: user.foto,
       },
     }); 
+
+  
     }catch(error){
       console.error(error);
       return res.status(500).json({message:"Erro interno do servidor"});

@@ -8,9 +8,10 @@
 }
 
 h1{
-  color:white;
+  color:rgb(255, 255, 255);
+
   text-shadow: black;
-  margin-bottom: 30px;
+  margin: 30px;
 }
 
 /* .text-background{
