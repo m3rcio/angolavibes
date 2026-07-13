@@ -12,6 +12,10 @@ export function generateAccessToken(user:{ id: string; email: string }) {
 }
 
 export function generateRefreshToken(user:{ id: string; email: string },res:Response) {
+
+  const expires_at = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+  const created_at = new Date();
+
   const token= jwt.sign(
     { id: user.id },
     process.env.JWT_REFRESH_SECRET as string,
@@ -26,7 +30,7 @@ export function generateRefreshToken(user:{ id: string; email: string },res:Resp
     // maxAge: 7 * 24 * 60 * 60 * 1000,
   });
 
-  return token;
+  return {token,expires_at,created_at};
 }
 
 
