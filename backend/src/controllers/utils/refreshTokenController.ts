@@ -17,7 +17,7 @@ export async function refreshTokenController(req:Request,res:Response){
       process.env.JWT_REFRESH_SECRET as string
     ) as any;
 
-        const [rows]:any=await db.query("select * from refresh_tokens where user_id=? and token=?",[payload.id,refreshToken]);
+        const [rows]:any=await db.query("select * from refresh_tokens where user_id=? and token=? and expires_at > NOW()",[payload.id,refreshToken]);
         const userRefreshToken=rows[0];
         const [userRows]:any= await db.query("select * from usuarios where id=?",[payload.id]);
         const user=userRows[0];
@@ -28,10 +28,8 @@ export async function refreshTokenController(req:Request,res:Response){
             return res.status(403).json({message:"Refresh token inválido"});
         }
         
-        // await db.query("delete from refresh_tokens where id=?",[userRefreshToken.id])
         const newAccessToken = generateAccessToken(user);
         const newRefreshToken= generateRefreshToken(user,res);
-        // await db.query("START TRANSACTION; delete from refresh_tokens where id=?  insert into refresh_tokens (user_id,token,expires_at,created_at) values (?,?,?,?) commit; rollback ;",[userRefreshToken.id,user.id,newRefreshToken.token,newRefreshToken.expires_at,newRefreshToken.created_at]);
 
         const connection = await db.getConnection();
 
@@ -43,8 +41,10 @@ export async function refreshTokenController(req:Request,res:Response){
             await connection.query(`insert into refresh_tokens (user_id, token, expires_at, created_at) values (?,?,?,?)`,[user.id,newRefreshToken.token,newRefreshToken.expires_at,newRefreshToken.created_at])
 
             await connection.commit();
-        }catch {
-            
+        }catch(error) {
+            await connection.rollback();
+        }finally{
+            connection.release();
         }
         res.json({ accessToken: newAccessToken });
 
