@@ -24,13 +24,12 @@ export async function refreshTokenController(req:Request,res:Response){
         
 
         if(!user){return res.status(403).json({message:""})}
-        if(!userRefreshToken || userRefreshToken.token !== refreshToken){
+        if(!userRefreshToken){
             return res.status(403).json({message:"Refresh token inválido"});
         }
         
-        const newAccessToken = generateAccessToken(user);
         const newRefreshToken= generateRefreshToken(user,res);
-
+        
         const connection = await db.getConnection();
 
         try{
@@ -39,13 +38,16 @@ export async function refreshTokenController(req:Request,res:Response){
             await connection.query("DELETE FROM refresh_tokens where id=?",[userRefreshToken.id])
 
             await connection.query(`insert into refresh_tokens (user_id, token, expires_at, created_at) values (?,?,?,?)`,[user.id,newRefreshToken.token,newRefreshToken.expires_at,newRefreshToken.created_at])
-
+            
             await connection.commit();
         }catch(error) {
+
             await connection.rollback();
+            res.status(500).json({message:"erro ao guardar o token"})
         }finally{
             connection.release();
         }
+        const newAccessToken = generateAccessToken(user);
         res.json({ accessToken: newAccessToken });
 
     }catch (err) {
