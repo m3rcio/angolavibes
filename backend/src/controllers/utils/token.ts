@@ -11,6 +11,7 @@ export function generateAccessToken(user:{ id: string; email: string }) {
   );
 }
 
+
 export function generateRefreshToken(user:{ id: string; email: string },res:Response) {
 
   const expires_at = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
@@ -22,15 +23,9 @@ export function generateRefreshToken(user:{ id: string; email: string },res:Resp
     { expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN as jwt.SignOptions["expiresIn"]}
   );
 
-  res.cookie("refreshToken", token,{
-    httpOnly:true,
-    secure: process.env.NODE_ENV==="production",
-    sameSite:"strict",
-    // maxAge:  60 * 1000
-    maxAge: 7 * 24 * 60 * 60 * 1000,
-  });
-
   return {token,expires_at,created_at};
 }
+
+
 
 
