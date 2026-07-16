@@ -16,4 +16,16 @@ Features:
   <li>backend caching of Google results</li>
 </ul>
 
+
+
+https://github.com/user-attachments/assets/83bca7e9-32e1-436c-9b42-203af5e6581b
+
+
+
+
+
+
+
+
+
 Live demo: https://angolavibes.vercel.app

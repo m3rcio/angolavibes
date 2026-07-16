@@ -31,7 +31,21 @@ export async function refreshTokenController(req:Request,res:Response){
         // await db.query("delete from refresh_tokens where id=?",[userRefreshToken.id])
         const newAccessToken = generateAccessToken(user);
         const newRefreshToken= generateRefreshToken(user,res);
-        await db.query("START TRANSACTION; delete from refresh_tokens where id=? insert into refresh_tokens (user_id,token,expires_at,created_at) values (?,?,?,?) commit; rollback ;",[userRefreshToken.id,user.id,newRefreshToken.token,newRefreshToken.expires_at,newRefreshToken.created_at]);
+        // await db.query("START TRANSACTION; delete from refresh_tokens where id=?  insert into refresh_tokens (user_id,token,expires_at,created_at) values (?,?,?,?) commit; rollback ;",[userRefreshToken.id,user.id,newRefreshToken.token,newRefreshToken.expires_at,newRefreshToken.created_at]);
+
+        const connection = await db.getConnection();
+
+        try{
+            await connection.beginTransaction();
+
+            await connection.query("DELETE FROM refresh_tokens where id=?",[userRefreshToken.id])
+
+            await connection.query(`insert into refresh_tokens (user_id, token, expires_at, created_at) values (?,?,?,?)`,[user.id,newRefreshToken.token,newRefreshToken.expires_at,newRefreshToken.created_at])
+
+            await connection.commit();
+        }catch {
+            
+        }
         res.json({ accessToken: newAccessToken });
 
     }catch (err) {
