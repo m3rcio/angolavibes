@@ -24,7 +24,7 @@ export async function refreshTokenController(req:Request,res:Response){
         const user=userRows[0];
         
 
-        if(!user){return res.status(403).json({message:""})}
+        if(!user){return res.status(403).json({message:" Usuário não encontrado"})}
         if(!userRefreshToken){
             return res.status(403).json({message:"Refresh token inválido"});
         }
