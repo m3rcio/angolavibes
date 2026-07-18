@@ -43,7 +43,7 @@ export async function refreshTokenController(req:Request,res:Response){
         }catch(error) {
 
             await connection.rollback();
-            res.status(500).json({message:"erro ao guardar o token"})
+            return res.status(500).json({message:"erro ao guardar o token"})
         }finally{
             connection.release();
         }
