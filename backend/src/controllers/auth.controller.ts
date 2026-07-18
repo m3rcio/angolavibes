@@ -76,10 +76,10 @@ export async function login(req:Request,res:Response){
     
   const accessToken = generateAccessToken(user);
   const refreshToken= generateRefreshToken(user,res);
-  await saveRefreshToken(user.id, refreshToken);
+  await saveRefreshToken(user.id, refreshToken.token);
 
 
-     res.cookie("refreshToken",refreshToken, {
+     res.cookie("refreshToken",refreshToken.token, {
       httpOnly: true,
       secure: false,
       sameSite: "lax",
