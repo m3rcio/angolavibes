@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { generateAccessToken, generateRefreshToken } from "./token";
 import { db } from "../../database/connection";
-import bcrypt from "bcrypt";
 
 export async function refreshTokenController(req:Request,res:Response){
     // const {refreshToken}=req.body;
@@ -30,7 +29,6 @@ export async function refreshTokenController(req:Request,res:Response){
         }
         
         const newRefreshToken= generateRefreshToken(user,res);
-        const refreshTokenHash= await bcrypt.hash(newRefreshToken.token,10);
         const connection = await db.getConnection();
 
         try{
@@ -38,7 +36,7 @@ export async function refreshTokenController(req:Request,res:Response){
 
             await connection.query("DELETE FROM refresh_tokens where id=?",[userRefreshToken.id])
 
-            await connection.query(`insert into refresh_tokens (user_id, token, expires_at, created_at) values (?,?,?,?)`,[user.id,refreshTokenHash,newRefreshToken.expires_at,newRefreshToken.created_at])
+            await connection.query(`insert into refresh_tokens (user_id, token, expires_at, created_at) values (?,?,?,?)`,[user.id,newRefreshToken.token,newRefreshToken.expires_at,newRefreshToken.created_at])
             
             await connection.commit();
         }catch(error) {
