@@ -60,12 +60,14 @@ export async function refreshTokenController(req:Request,res:Response){
     }catch (err) {
         if(typeof err === "object" && err !== null && "name" in err){
              if(err.name=='TokenExpiredError'){
-       return res.status(401).json({message: 'jwt expirou',}) 
+       return res.status(401).json({message: 'token expirou'}) 
        }else if(err.name=="JsonWebTokenError"){
-         return res.status(401).json({message: 'jwt malformado'}) 
+         return res.status(401).json({message: 'token inválido'}) 
        }else if(err.name=='NotBeforeError'){
-          return res.status(401).json({message: 'jwt não ativo'}) 
-       }
+          return res.status(401).json({message: 'token inválido'}) 
+       }else {return res.status(500).json({message:'Erro do servidor'});}
+        }else{
+            return res.status(500).json({message:'Erro do servidor'});
         }
     }
 }
