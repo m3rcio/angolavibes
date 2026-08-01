@@ -2,7 +2,15 @@ import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { generateAccessToken, generateRefreshToken } from "./token";
 import { db } from "../../database/connection";
+import { RowDataPacket } from "mysql2";
 
+interface RefreshTokenRow extends RowDataPacket{
+    id:number,
+    user_id:number,
+    token:string,
+    expires_at: Date,
+    created_at: Date
+}
 export async function refreshTokenController(req:Request,res:Response){
 
   
@@ -21,22 +29,24 @@ export async function refreshTokenController(req:Request,res:Response){
        
         
 
-        // if(!user){return res.status(403).json({message:" Usuário não encontrado"})}
-        // if(!userRefreshToken){
-        //     return res.status(403).json({message:"Refresh token inválido"});
-        // }
+       
         
         
         const connection = await db.getConnection();
+        const newRefreshToken= generateRefreshToken(user);
         try{
             await connection.beginTransaction();
-        const [rows]= await connection.query("select * from refresh_tokens where user_id=? and token=? and expires_at > NOW() FOR UPDATE",[payload.id,refreshToken]);
+        const [rows]= await connection.query<RefreshTokenRow[]>("select * from refresh_tokens where user_id=? and token=? and expires_at > NOW() FOR UPDATE",[payload.id,refreshToken]);
         const userRefreshToken=rows[0];
         const [userRows]:any= await connection.query("select * from usuarios where id=?",[payload.id]);
         const user=userRows[0];
 
+         if(!user){return res.status(403).json({message:" Usuário não encontrado"})}
+        if(!userRefreshToken){
+            return res.status(403).json({message:"Refresh token inválido"});
+        }
             await connection.query("DELETE FROM refresh_tokens where id=? ",[userRefreshToken.id])
-            const newRefreshToken= generateRefreshToken(user);
+            
             await connection.query(`insert into refresh_tokens (user_id, token, expires_at, created_at) values (?,?,?,?)`,[user.id,newRefreshToken.token,newRefreshToken.expires_at,newRefreshToken.created_at])
             
             await connection.commit();
