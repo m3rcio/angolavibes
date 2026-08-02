@@ -27,10 +27,11 @@ export async function refreshTokenController(req:Request,res:Response){
 
         const connection = await db.getConnection();
       
+        let token_hash=crypto.createHash("sha256").update(refreshToken).digest("hex");
+        
         try{
-
             await connection.beginTransaction();
-            let token_hash=crypto.createHash("sha256").update(refreshToken).digest("hex");
+            
         const [rows]= await connection.query<RefreshTokenRow[]>("select * from refresh_tokens where user_id=? and token=? and expires_at > NOW() FOR UPDATE",[payload.id,token_hash]);
 
         const userRefreshToken=rows[0];
