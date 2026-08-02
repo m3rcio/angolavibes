@@ -33,7 +33,7 @@ export async function refreshTokenController(req:Request,res:Response){
         
         
         const connection = await db.getConnection();
-        const newRefreshToken= generateRefreshToken(user);
+      
         try{
             await connection.beginTransaction();
         const [rows]= await connection.query<RefreshTokenRow[]>("select * from refresh_tokens where user_id=? and token=? and expires_at > NOW() FOR UPDATE",[payload.id,refreshToken]);
@@ -45,11 +45,24 @@ export async function refreshTokenController(req:Request,res:Response){
         if(!userRefreshToken){
             return res.status(403).json({message:"Refresh token inválido"});
         }
+
+        const newRefreshToken=generateRefreshToken(user);
             await connection.query("DELETE FROM refresh_tokens where id=? ",[userRefreshToken.id])
             
             await connection.query(`insert into refresh_tokens (user_id, token, expires_at, created_at) values (?,?,?,?)`,[user.id,newRefreshToken.token,newRefreshToken.expires_at,newRefreshToken.created_at])
             
             await connection.commit();
+
+              const token=newRefreshToken.token
+        res.cookie("refreshToken",token,{
+        httpOnly:true,
+        secure: process.env.NODE_ENV==="production",
+        sameSite:"strict",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        })
+
+        const newAccessToken = generateAccessToken(user);
+        return res.json({ accessToken: newAccessToken });
         }catch(error) {
 
             await connection.rollback();
@@ -57,16 +70,6 @@ export async function refreshTokenController(req:Request,res:Response){
         }finally{
             connection.release();
         }
-
-        const token=newRefreshToken.token
-        res.cookie("refreshToken",token,{
-        httpOnly:true,
-        secure: process.env.NODE_ENV==="production",
-        sameSite:"strict",
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-        })
-        const newAccessToken = generateAccessToken(user);
-        res.json({ accessToken: newAccessToken });
 
     }catch (err) {
         if(typeof err === "object" && err !== null && "name" in err){
