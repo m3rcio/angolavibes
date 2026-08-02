@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import { generateAccessToken, generateRefreshToken } from "./token";
 import { db } from "../../database/connection";
 import { RowDataPacket } from "mysql2";
+import crypto from "crypto";
 
 interface RefreshTokenRow extends RowDataPacket{
     id:number,
@@ -24,14 +25,6 @@ export async function refreshTokenController(req:Request,res:Response){
       process.env.JWT_REFRESH_SECRET as string
     ) as any;
 
-        
-       
-       
-        
-
-       
-        
-        
         const connection = await db.getConnection();
       
         try{
