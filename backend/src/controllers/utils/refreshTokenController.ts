@@ -43,10 +43,10 @@ export async function refreshTokenController(req:Request,res:Response){
             return res.status(403).json({message:"Refresh token inválido"});
         }
 
-        const newRefreshToken=generateRefreshToken(user);
+        let newRefreshToken=generateRefreshToken(user);
             await connection.query("DELETE FROM refresh_tokens where id=? ",[userRefreshToken.id])
-            
-            await connection.query(`insert into refresh_tokens (user_id, token, expires_at, created_at) values (?,?,?,?)`,[user.id,newRefreshToken.token,newRefreshToken.expires_at,newRefreshToken.created_at])
+            const token_hash=createHash("sha256").update(newRefreshToken.token).digest("hex");
+            await connection.query(`insert into refresh_tokens (user_id, token, expires_at, created_at) values (?,?,?,?)`,[user.id,token_hash,newRefreshToken.expires_at,newRefreshToken.created_at])
             
             await connection.commit();
 
