@@ -41,8 +41,12 @@ export async function refreshTokenController(req:Request,res:Response){
         const [userRows]:any= await connection.query("select * from usuarios where id=?",[payload.id]);
         const user=userRows[0];
 
-         if(!user){return res.status(403).json({message:" Usuário não encontrado"})}
+         if(!user){
+            await connection.rollback();
+            return res.status(403).json({message:" Usuário não encontrado"})
+        }
         if(!userRefreshToken){
+            await connection.rollback();
             return res.status(403).json({message:"Refresh token inválido"});
         }
 
