@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import { generateAccessToken, generateRefreshToken } from "./token";
 import { db } from "../../database/connection";
 import { RowDataPacket } from "mysql2";
-import crypto from "crypto";
+import crypto, { hash } from "crypto";
 
 interface RefreshTokenRow extends RowDataPacket{
     id:number,
@@ -28,10 +28,15 @@ export async function refreshTokenController(req:Request,res:Response){
         const connection = await db.getConnection();
       
         try{
+
             await connection.beginTransaction();
-        const [rows]= await connection.query<RefreshTokenRow[]>("select * from refresh_tokens where user_id=? and token=? and expires_at > NOW() FOR UPDATE",[payload.id,refreshToken]);
+            let token_hash=crypto.createHash("sha256").update(refreshToken).digest("hex");
+        const [rows]= await connection.query<RefreshTokenRow[]>("select * from refresh_tokens where user_id=? and token=? and expires_at > NOW() FOR UPDATE",[payload.id,token_hash]);
+
         const userRefreshToken=rows[0];
+
         const [userRows]:any= await connection.query("select * from usuarios where id=?",[payload.id]);
+
         const user=userRows[0];
 
          if(!user){
@@ -45,7 +50,9 @@ export async function refreshTokenController(req:Request,res:Response){
 
         let newRefreshToken=generateRefreshToken(user);
             await connection.query("DELETE FROM refresh_tokens where id=? ",[userRefreshToken.id])
-            const token_hash=createHash("sha256").update(newRefreshToken.token).digest("hex");
+
+            token_hash=crypto.createHash("sha256").update(newRefreshToken.token).digest("hex");
+
             await connection.query(`insert into refresh_tokens (user_id, token, expires_at, created_at) values (?,?,?,?)`,[user.id,token_hash,newRefreshToken.expires_at,newRefreshToken.created_at])
             
             await connection.commit();
