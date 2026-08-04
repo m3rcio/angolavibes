@@ -40,7 +40,7 @@ cp .env.example .env
 npm run dev
 
 # Frontend
-cd ../frontend
+cd angolavibes
 npm install
 npm start
 
