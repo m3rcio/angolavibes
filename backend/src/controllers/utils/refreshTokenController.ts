@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import { generateAccessToken, generateRefreshToken } from "./token";
 import { db } from "../../database/connection";
 import { RowDataPacket } from "mysql2";
-import crypto, { hash } from "crypto";
+import crypto from "crypto";
 
 interface RefreshTokenRow extends RowDataPacket{
     id:number,
