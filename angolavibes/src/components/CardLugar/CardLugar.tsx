@@ -96,9 +96,9 @@ export default function CardLugar({ lugar }: Props) {
                 cursor: "pointer",
               }}></i>
             
-            <button onClick={ ()=> salvarLugar(lugar.id,)}>
+            {/* <button onClick={ ()=> salvarLugar(lugar.id,lugar.usuario_id)} className="bg-danger color-light">
               Guardar Lugar
-            </button>
+            </button> */}
           </>
         )}
       </div>
