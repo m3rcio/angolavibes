@@ -36,7 +36,7 @@ function formatTime(hour?: number, minute?: number) {
 
 
 
- export async function buscarLugar(req, res) => {
+ export async function buscarLugares(req, res) => {
   try {
     const { query, categoria, pageToken } = req.query;
 
@@ -46,6 +46,8 @@ function formatTime(hour?: number, minute?: number) {
     };
     if (pageToken) body.pageToken = pageToken;
 
+
+    // faz a busca ao google pelos lugares com base 
     const response = await axios.post(
       "https://places.googleapis.com/v1/places:searchText",
       body,

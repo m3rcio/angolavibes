@@ -5,6 +5,6 @@ import { RowDataPacket, ResultSetHeader } from "mysql2";
 import { Lugar } from "../models/Lugar.model";
 const googleRoutes=Router();
 
-googleRoutes.get("/places",buscarLugar);
+googleRoutes.get("/places",buscarLugares);
 
 export default googleRoutes;
