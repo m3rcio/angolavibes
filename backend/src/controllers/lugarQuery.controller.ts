@@ -3,6 +3,9 @@ import { Router } from "express";
 import { db } from "../database/connection";
 import { RowDataPacket, ResultSetHeader } from "mysql2";
 import { Lugar } from "../models/Lugar.model";
+import {mapCategoria} from "";
+import {formatTime} from "";
+
 
 interface LugarJoinRow extends RowDataPacket {
   id: number;
@@ -23,8 +26,6 @@ function formatTime(hour?: number, minute?: number) {
   if (hour === undefined || minute === undefined) return null;
   return `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}:00`;
 }
-
-
 
  export async function buscarLugares(req, res) => {
   try {
