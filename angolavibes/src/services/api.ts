@@ -17,32 +17,50 @@ api.interceptors.request.use(config => {
   }
   return config;
 });
+let isRefreshing=false;
+let refreshPromise:Promise<string> | null=null;
 
 api.interceptors.response.use(
   res => res,
   async error => {
     const originalRequest = error.config;
 
+    // se der 401 e não for um retry e não tentou se conectar a /refresh e /login
     if (
       error.response?.status === 401 &&
       !originalRequest._retry &&
-      !originalRequest.url.includes("/api/auth/refresh")
+      !originalRequest.url.includes("/api/auth/refresh") && !originalRequest.url.includes("/api/auth/login")
     ) {
       originalRequest._retry = true;
 
       try {
-        const res = await api.post("/api/auth/refresh");
+        if(!isRefreshing){
+          isRefreshing=true;
+          
+          refreshPromise = api.post("/api/auth/refresh").then(res=>{
 
-        setAccessToken(res.data.accessToken);
+            const newAccessToken=res.data.accessToken;
+            setAccessToken(res.data.accessToken);
+           
+            return  api(originalRequest);
+            
+          }).finally(()=>{
+            isRefreshing=false;
+            refreshPromise=null;
+          })
 
-        originalRequest.headers.Authorization =
-          `Bearer ${res.data.accessToken}`;
+        }else{
+          const newAccessToken= await refreshPromise;
 
-        return api(originalRequest);
+          originalRequest.headers.Authorization= `Bearer ${newAccessToken}`;
+          return api(originalRequest);
+        }
+        
 
-      } catch {
+      } catch(error) {
         setAccessToken(null);
-        await api.post("/api/auth/logout");
+        api.post("/api/auth/logout");
+         return Promise.reject(error);
       }
     }
 
