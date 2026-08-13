@@ -47,7 +47,7 @@ function formatTime(hour?: number, minute?: number) {
     if (pageToken) body.pageToken = pageToken;
 
 
-    // faz a busca ao google pelos lugares com base 
+    // faz a busca ao google pelos lugares com base no body{} que contem o query, categoria e pageToken
     const response = await axios.post(
       "https://places.googleapis.com/v1/places:searchText",
       body,
