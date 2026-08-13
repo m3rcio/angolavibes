@@ -5,21 +5,6 @@ import { RowDataPacket, ResultSetHeader } from "mysql2";
 import { Lugar } from "../models/Lugar.model";
 const googleRoutes=Router();
 
-interface LugarJoinRow extends RowDataPacket {
-  id: number;
-  nome: string;
-  descricao: string | null;
-  google_place_id: string;
-  endereco: string;
-  latitude: number | null;
-  longitude: number | null;
-  telefone: string;
-  preco_medio: number | null;
-  imagem_url: string | null;
-}
-
-
-
 googleRoutes.get("/places", async (req, res) => {
   try {
     const { query, categoria, pageToken } = req.query;
