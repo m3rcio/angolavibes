@@ -3,9 +3,8 @@ import { Router } from "express";
 import { db } from "../database/connection";
 import { RowDataPacket, ResultSetHeader } from "mysql2";
 import { Lugar } from "../models/Lugar.model";
-import {mapCategoria} from "";
-import {formatTime} from "";
-
+import { mapCategoria } from "./utils/mapCategoria";
+import { formatTime } from "./utils/formatLugarTime";
 
 interface LugarJoinRow extends RowDataPacket {
   id: number;
@@ -24,7 +23,7 @@ interface LugarJoinRow extends RowDataPacket {
  export async function buscarLugares((req, res) => {
   try {
     const { query, categoria, pageToken } = req.query;
-
+// lógica para validar query e categoria vem aqui
     const body: any = {
       textQuery: `${query || ""} em Luanda`,
       maxResultCount: 20
