@@ -21,13 +21,7 @@ interface LugarJoinRow extends RowDataPacket {
 }
 
 
-
-function formatTime(hour?: number, minute?: number) {
-  if (hour === undefined || minute === undefined) return null;
-  return `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}:00`;
-}
-
- export async function buscarLugares(req, res) => {
+ export async function buscarLugares((req, res) => {
   try {
     const { query, categoria, pageToken } = req.query;
 
@@ -72,6 +66,8 @@ function formatTime(hour?: number, minute?: number) {
       if (existing.length > 0) {
         lugarIdInterno = existing[0].id;
       } else {
+
+        // inserir lugar se não existir
         const [result] = await db.execute<ResultSetHeader>(
           `INSERT INTO lugares
             (google_place_id, nome, endereco, latitude, longitude,
@@ -99,6 +95,7 @@ function formatTime(hour?: number, minute?: number) {
         for (const photo of fotosLimitadas) {
           const photoReference = photo.name.split("/").pop(); 
           const urlCompleta = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=${photoReference}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
+          // inserir imagens na tabela
           await db.execute(
             `INSERT INTO lugar_imagens (lugar_id, imagem_url)
              VALUES (?, ?)
@@ -109,7 +106,7 @@ function formatTime(hour?: number, minute?: number) {
       }
     }
 
-   
+   // mostrar lugares atravez da busca
     const [rows] = await db.query<LugarJoinRow[]>(`
       SELECT 
         l.id,
