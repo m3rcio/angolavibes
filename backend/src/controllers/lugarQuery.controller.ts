@@ -28,7 +28,7 @@ interface LugarJoinRow extends RowDataPacket {
 const isQueryValid=validarBusca(query);
 
 if(isQueryValid.isValid==true){
-
+  
 }
     const body: any = { 
       textQuery: `${query || ""} em Luanda`,
