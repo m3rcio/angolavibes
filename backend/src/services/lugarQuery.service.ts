@@ -1,10 +1,13 @@
- 
- 
+  
+ export class lugarService{
+   
+    async buscarLugar()
+    
  const body: any = { 
       textQuery: `${query || ""} em Luanda`,
       maxResultCount: 20
     };
-    if (pageToken) body.pageToken = pageToken;
+    if (pageToken: any) body.pageToken = pageToken;
 
 
     // faz a busca ao google pelos lugares com base no body{} que contem o query, categoria e pageToken
@@ -82,3 +85,4 @@
           }
         }
     
+ }
