@@ -1,17 +1,3 @@
-function contemCaracteresInvalidos(texto: string): boolean {
-  const padrao = /[;'"<>\|$\\=%+?_]|--|\/\*|\*\//;
-
-  return padrao.test(texto);
-}
-
-
-export function validarBusca(query:string){
-  if(contemCaracteresInvalidos(query)==false && query.length < 100){
-    return query;
-  }
-}
-
-
 
 //  ============================================================
 // search-validator.ts
@@ -119,7 +105,7 @@ function escapeHtml(unsafe: string): string {
 }
 
 // ── 7. VALIDAÇÃO PRINCIPAL ──
-export function validateSearchTerm( rawInput: string, config: SearchConfig = {}): ValidationResult {
+export function validarBusca( rawInput: string, config: SearchConfig = {}): ValidationResult {
   const cfg = { ...DEFAULT_CONFIG, ...config };
   const errors: string[] = [];
 

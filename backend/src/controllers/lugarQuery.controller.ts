@@ -5,6 +5,7 @@ import { RowDataPacket, ResultSetHeader } from "mysql2";
 import { Lugar } from "../models/Lugar.model";
 import { mapCategoria } from "./utils/mapCategoria";
 import { formatTime } from "./utils/formatLugarTime";
+import { validarBusca } from "../validator/lugarQuery.validator";
 
 interface LugarJoinRow extends RowDataPacket {
   id: number;
@@ -24,7 +25,12 @@ interface LugarJoinRow extends RowDataPacket {
   try {
     const { query, categoria, pageToken } = req.query;
 // lógica para validar query e categoria vem aqui
-    const body: any = {
+const isQueryValid=validarBusca(query);
+
+if(isQueryValid.isValid==true){
+
+}
+    const body: any = { 
       textQuery: `${query || ""} em Luanda`,
       maxResultCount: 20
     };
