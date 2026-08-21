@@ -11,6 +11,7 @@ import { buscarLugarnoGoogle } from "./googlePlaces.service";
        const googleResponse= buscarLugarnoGoogle(body)
 
        
+       return googleResponse;
     }
     
     
