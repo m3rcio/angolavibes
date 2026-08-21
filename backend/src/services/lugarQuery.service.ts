@@ -1,28 +1,20 @@
-  
- export class lugarService{
+import { buscarLugarnoGoogle } from "./googlePlaces.service";
+
+
    
-    async buscarLugar()
-    
- const body: any = { 
+  export async function buscarLugar(query:string,categoria:number,pageToken:number){
+        const body:any= { 
       textQuery: `${query || ""} em Luanda`,
       maxResultCount: 20
     };
-    if (pageToken: any) body.pageToken = pageToken;
+    if (pageToken) body.pageToken = pageToken;
+        buscarLugarnoGoogle(body)
+    }
+    
+    
 
 
-    // faz a busca ao google pelos lugares com base no body{} que contem o query, categoria e pageToken
-    const response = await axios.post(
-      "https://places.googleapis.com/v1/places:searchText",
-      body,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "X-Goog-Api-Key": process.env.GOOGLE_MAPS_API_KEY,
-          "X-Goog-FieldMask":
-            "places.id,places.displayName,places.formattedAddress,places.location,places.nationalPhoneNumber,places.priceLevel,places.regularOpeningHours,places.types,places.photos,nextPageToken,places.websiteUri"
-        }
-      }
-    );
+   
 
 
         // armazena os lugares em uma constante ou se estiver vazio uma array vazio
@@ -84,5 +76,3 @@
             }
           }
         }
-    
- }

@@ -6,6 +6,7 @@ import { Lugar } from "../models/Lugar.model";
 import { mapCategoria } from "./utils/mapCategoria";
 import { formatTime } from "./utils/formatLugarTime";
 import { validarBusca } from "../validator/lugarQuery.validator";
+import { buscarLugar } from "../services/lugarQuery.service";
 
 interface LugarJoinRow extends RowDataPacket {
   id: number;
@@ -28,7 +29,7 @@ interface LugarJoinRow extends RowDataPacket {
 const isQueryValid=validarBusca(query);
 
 if(isQueryValid.isValid==true){
-
+  buscarLugar(query,categoria,pageToken)
 }
    
    // mostrar lugares atravez da busca
