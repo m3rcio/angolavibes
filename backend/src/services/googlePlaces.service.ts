@@ -2,7 +2,8 @@ import axios from "axios";
 
    export async function buscarLugarnoGoogle(body:any){
          // faz a busca ao google pelos lugares com base no body{} que contem o query, categoria e pageToken
-    const response = await axios.post(
+         try{
+          const response = await axios.post(
       "https://places.googleapis.com/v1/places:searchText",
       body,
       {
@@ -14,5 +15,12 @@ import axios from "axios";
         }
       }
     );
-    return response;
+    if(response.status !== 200){
+      throw new Error(` Erro inesperado: ${response.status}`)
+    }
+    return response.data;
+
+         }catch(error){
+        console.error(error);
+         }
     }

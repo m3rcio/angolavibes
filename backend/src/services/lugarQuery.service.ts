@@ -8,7 +8,9 @@ import { buscarLugarnoGoogle } from "./googlePlaces.service";
       maxResultCount: 20
     };
     if (pageToken) body.pageToken = pageToken;
-        buscarLugarnoGoogle(body)
+       const googleResponse= buscarLugarnoGoogle(body)
+
+       
     }
     
     
