@@ -27,8 +27,7 @@ for (const place of lugares){
         }
 }
 
-export async function lugaresNovos(){
-
+export async function lugaresNovos(lugares:any){
 
   return [lugaresNovos]
 }

@@ -10,7 +10,7 @@ import { buscarLugarnoGoogle } from "./googlePlaces.service";
     if (pageToken) body.pageToken = pageToken;
        const googleResults= await buscarLugarnoGoogle(body)
        const lugaresExistentes= await lugaresExistentesPorIds(googleResults)
-       const novosLugares= googleResults
+       const novosLugares= googleResults.filter(l=> !lugaresExistentes.some(e=> e.id === l.id))
 
     }
     
