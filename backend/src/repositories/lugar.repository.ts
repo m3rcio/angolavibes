@@ -26,6 +26,11 @@ for (const place of lugares){
         return [existing];
 }
 
+export async function lugaresNovos(){
+
+  return [lugaresNovos]
+}
+
         const lugares = response.data.places || [];
     
         for (const place of lugares) {
