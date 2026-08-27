@@ -22,7 +22,8 @@ for (const place of lugares){
             "SELECT id FROM lugares WHERE google_place_id = ?",
             [place.id]
           );
-}
+        }
+        return [existing];
 
 }
 
