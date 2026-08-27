@@ -1,6 +1,7 @@
 // armazena os lugares em uma constante ou se estiver vazio uma array vazio
 import { RowDataPacket } from "mysql2";
 import { Lugar} from "../models/Lugar.model";      
+import { db } from "../database/connection";
 interface LugarJoinRow extends RowDataPacket {
   id: number;
   nome: string;
@@ -14,7 +15,7 @@ interface LugarJoinRow extends RowDataPacket {
   imagem_url: string | null;
 }
 
-export async function lugaresExistentesPorIds(lugares){
+export async function lugaresExistentesPorIds(lugares:any){
      // Verifica se o lugar já existe
 for (const place of lugares){
     
@@ -22,11 +23,12 @@ for (const place of lugares){
             "SELECT id FROM lugares WHERE google_place_id = ?",
             [place.id]
           );
+          return [existing];
         }
-        return [existing];
 }
 
 export async function lugaresNovos(){
+
 
   return [lugaresNovos]
 }
