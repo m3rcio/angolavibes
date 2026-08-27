@@ -24,7 +24,6 @@ for (const place of lugares){
           );
         }
         return [existing];
-
 }
 
         const lugares = response.data.places || [];
