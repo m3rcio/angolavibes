@@ -17,14 +17,14 @@ interface LugarJoinRow extends RowDataPacket {
 
 export async function lugaresExistentesPorIds(lugares:Lugar[]){
      // Verifica se o lugar já existe
-     let existing:Lugar
+     let existingIds:number[]=[]
 for (const place of lugares){
-     [existing] = await db.query<RowDataPacket[]>(
+     [existingIds] = await db.query(
             "SELECT id FROM lugares WHERE google_place_id = ?",
             [place.id]
           );
         }
-        
+        return existingIds
 }
 
 export async function lugaresNovos(lugares:any){
