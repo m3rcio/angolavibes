@@ -26,5 +26,9 @@ interface LugarJoinRow extends RowDataPacket {
        const lugaresExistentes= await lugaresExistentesPorIds(googleResults)
        const novosLugares= googleResults.filter((l:Lugar)=> !lugaresExistentes.some((e)=> e.id === l.id))
 
+       if(novosLugares.length > 0){
+        await inserirLugares(novosLugares);
+       }
+
     }
     
