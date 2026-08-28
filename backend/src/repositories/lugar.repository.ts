@@ -1,5 +1,5 @@
 import { RowDataPacket } from "mysql2";
-import type { Lugar} from "../models/Lugar.model";      
+import type { idRow, Lugar} from "../models/Lugar.model";      
 import { db } from "../database/connection";
 
 interface LugarJoinRow extends RowDataPacket {
@@ -17,9 +17,9 @@ interface LugarJoinRow extends RowDataPacket {
 
 export async function lugaresExistentesPorIds(lugares:Lugar[]){
      // Verifica se o lugar já existe
-     let existingIds:number[]=[]
+     let existingIds:idRow[]=[]
 for (const place of lugares){
-     [existingIds] = await db.query(
+     [existingIds] = await db.query<idRow[]>(
             "SELECT id FROM lugares WHERE google_place_id = ?",
             [place.id]
           );
