@@ -2,17 +2,29 @@ import { RowDataPacket } from "mysql2";
 import type { Lugar} from "../models/Lugar.model";      
 import { db } from "../database/connection";
 
+interface LugarJoinRow extends RowDataPacket {
+  id: number;
+  nome: string;
+  descricao: string | null;
+  google_place_id: string;
+  endereco: string;
+  latitude: number | null;
+  longitude: number | null;
+  telefone: string;
+  preco_medio: number | null;
+  imagem_url: string | null;
+}
 
 export async function lugaresExistentesPorIds(lugares:Lugar[]){
      // Verifica se o lugar já existe
+     let existing:Lugar
 for (const place of lugares){
-    
-          const [existing] = await db.query<RowDataPacket[]>(
+     [existing] = await db.query<RowDataPacket[]>(
             "SELECT id FROM lugares WHERE google_place_id = ?",
             [place.id]
           );
-          return [existing];
         }
+        
 }
 
 export async function lugaresNovos(lugares:any){
