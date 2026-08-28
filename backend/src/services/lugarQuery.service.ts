@@ -1,5 +1,6 @@
 import { buscarLugarnoGoogle } from "./googlePlaces.service";
-
+import type { Lugar } from "../models/Lugar.model";
+import { lugaresExistentesPorIds } from "../repositories/lugar.repository";
 
    
   export async function buscarLugar(query:string,categoria:number,pageToken:number){
@@ -10,7 +11,7 @@ import { buscarLugarnoGoogle } from "./googlePlaces.service";
     if (pageToken) body.pageToken = pageToken;
        const googleResults= await buscarLugarnoGoogle(body)
        const lugaresExistentes= await lugaresExistentesPorIds(googleResults)
-       const novosLugares= googleResults.filter(l=> !lugaresExistentes.some(e=> e.id === l.id))
+       const novosLugares= googleResults.filter((l:Lugar)=> !lugaresExistentes.some((e:Lugar)=> e.id === l.id))
 
     }
     
