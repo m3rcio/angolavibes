@@ -9,3 +9,7 @@ export interface Lugar {
   telefone: string;
   preco_medio: number | null;
 }
+
+export interface idRow{
+  id:number;
+}
