@@ -1,3 +1,5 @@
+import { RowDataPacket } from "mysql2";
+
 export interface Lugar {
   id: number;
   nome: string;
@@ -10,6 +12,6 @@ export interface Lugar {
   preco_medio: number | null;
 }
 
-export interface idRow{
+export interface idRow extends RowDataPacket{
   id:number;
 }
