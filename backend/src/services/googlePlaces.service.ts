@@ -18,7 +18,7 @@ import axios from "axios";
     if(response.status !== 200){
       throw new Error(` Erro inesperado: ${response.status}`)
     }
-    return response.data || [];
+    return response.data.places || [];
 
          }catch(error){
         console.error(error);

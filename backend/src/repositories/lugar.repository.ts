@@ -3,9 +3,9 @@ import type { Lugar} from "../models/Lugar.model";
 import { db } from "../database/connection";
 
 
-export async function lugaresExistentesPorIds(lugares:Lugar){
+export async function lugaresExistentesPorIds(lugares:Lugar[]){
      // Verifica se o lugar já existe
-for (const place in lugares){
+for (const place of lugares){
     
           const [existing] = await db.query<RowDataPacket[]>(
             "SELECT id FROM lugares WHERE google_place_id = ?",

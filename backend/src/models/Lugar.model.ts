@@ -1,4 +1,5 @@
 export interface Lugar {
+  id: number;
   nome: string;
   descricao: string | null;
   google_place_id: string;
