@@ -27,9 +27,8 @@ for (const place of lugares){
         return existingIds
 }
 
-export async function lugaresNovos(lugares:any){
+export async function inserirLugares(lugares:any){
 
-  return [lugaresNovos]
 }
 
         // const lugares = response.data.places || [];

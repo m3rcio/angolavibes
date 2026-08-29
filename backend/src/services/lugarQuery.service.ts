@@ -1,6 +1,6 @@
 import { buscarLugarnoGoogle } from "./googlePlaces.service";
 import type { Lugar } from "../models/Lugar.model";
-import { lugaresExistentesPorIds } from "../repositories/lugar.repository";
+import { inserirLugares, lugaresExistentesPorIds } from "../repositories/lugar.repository";
 import { RowDataPacket } from "mysql2";
 
 interface LugarJoinRow extends RowDataPacket {
