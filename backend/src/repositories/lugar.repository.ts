@@ -27,8 +27,10 @@ for (const place of lugares){
         return existingIds
 }
 
-export async function inserirLugares(lugares:any){
-
+export async function inserirLugares(place:any){
+  await db.query(` INSERT INTO lugares (google_place_id, nome, endereco, latitude, longitude,  telefone, preco_medio, horario_abertura horario_fechamento, categoria_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+     [place.id,place.displayName?.text || "",place.formattedAddress || "",place.location?.latitude || null,place.location?.longitude || null,place.nationalPhoneNumber || "",place.priceLevel || null,horario_abertura,horario_fechamento,categoria_id
+               ])
 }
 
         // const lugares = response.data.places || [];
