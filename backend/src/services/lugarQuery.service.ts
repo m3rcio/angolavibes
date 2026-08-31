@@ -30,5 +30,7 @@ interface LugarJoinRow extends RowDataPacket {
         await inserirLugares(novosLugares);
        }
 
+       
+
     }
     

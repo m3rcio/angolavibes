@@ -75,7 +75,7 @@ export async function inserirLugares(place:any){
         //     );
         //     lugarIdInterno = result.insertId;
         //   }
-    
+    // comentario
         //   if (place.photos?.length) {
         //     const fotosLimitadas = place.photos.slice(0, 5);
         //     for (const photo of fotosLimitadas) {
