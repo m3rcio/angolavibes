@@ -1,0 +1,30 @@
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import authRoutes from "./routes/auth.routes";
+import googleRoutes from "./routes/google.routes";
+let cookieParser= require('cookie-parser');
+// import userRoutes from "./routes/usuario.routes";
+
+dotenv.config();
+
+const app=express();
+app.use(cookieParser())
+const PORT = process.env.PORT || 5000;
+
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true
+}));
+app.use(express.json());
+
+// app.use("/api/users", userRoutes);
+app.use("/api/auth",authRoutes)
+app.use("/api",googleRoutes)
+app.get("/", (req, res)=>{
+    res.send("API RODANDO...");
+});
+
+app.listen(PORT,()=>{
+    console.log(`aplicativo rodando na porta: ${PORT}`);
+})

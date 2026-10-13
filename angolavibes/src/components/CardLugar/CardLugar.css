@@ -1,0 +1,16 @@
+
+
+.trocar-imagem-icon {
+  background: red;
+  font-size: 20pt;
+  padding: 1px 3px 1px 3px;
+  color: #ffffff;
+  border: none;
+   border-radius: 20%; 
+  cursor: pointer;
+}
+
+.trocar-imagem-icon:hover {
+  background: #f33655;
+}
+

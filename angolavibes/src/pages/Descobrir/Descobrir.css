@@ -1,0 +1,19 @@
+.descobrir-div{
+    z-index: 1000;
+}
+
+.input-wrapper {
+  position: relative;
+  width: 400px; 
+}
+
+h1{
+  color:rgb(255, 255, 255);
+
+  text-shadow: black;
+  margin: 30px;
+}
+
+/* .text-background{
+  border-bottom: 3px solid red;
+} */
