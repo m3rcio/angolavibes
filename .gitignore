@@ -1,0 +1,8 @@
+node_modules/
+bin/
+obj/
+dist/
+.env
+config.json
+appsettings.Development.json
+npm-debug.log*

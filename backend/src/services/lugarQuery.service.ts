@@ -2,8 +2,11 @@ import { buscarLugarnoGoogle } from "./googlePlaces.service";
 import type { Lugar } from "../models/Lugar.model";
 import { inserirLugares, lugaresExistentesPorIds } from "../repositories/lugar.repository";
 import { RowDataPacket } from "mysql2";
+<<<<<<< HEAD
 import { mapCategoria } from "../controllers/utils/mapCategoria";
 import { formatTime } from "../controllers/utils/formatLugarTime";
+=======
+>>>>>>> 57f9b566ecba81b1c1b8d1031270a669365d8490
 
 interface LugarJoinRow extends RowDataPacket {
   id: number;
