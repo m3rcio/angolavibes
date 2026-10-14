@@ -2,11 +2,8 @@ import { buscarLugarnoGoogle } from "./googlePlaces.service";
 import type { Lugar } from "../models/Lugar.model";
 import { inserirLugares, lugaresExistentesPorIds } from "../repositories/lugar.repository";
 import { RowDataPacket } from "mysql2";
-<<<<<<< HEAD
 import { mapCategoria } from "../controllers/utils/mapCategoria";
 import { formatTime } from "../controllers/utils/formatLugarTime";
-=======
->>>>>>> 57f9b566ecba81b1c1b8d1031270a669365d8490
 
 interface LugarJoinRow extends RowDataPacket {
   id: number;
@@ -32,14 +29,15 @@ interface LugarJoinRow extends RowDataPacket {
        const novosLugares= googleResults.filter((l:Lugar)=> !lugaresExistentes.some((e)=> e.id === l.id))
 
        if(novosLugares.length > 0){
+        
         for(const place of novosLugares){
            const categoria_id = categoria ? Number(categoria) : mapCategoria(place.types);
            const openPeriod = place.regularOpeningHours?.periods?.[0];
     
            const horario_abertura = formatTime(openPeriod?.open?.hour, openPeriod?.open?.minute);
            const horario_fechamento = formatTime(openPeriod?.close?.hour, openPeriod?.close?.minute);
+           await inserirLugares(novosLugares,categoria_id,horario_abertura,horario_fechamento);
         }
-        await inserirLugares(novosLugares);
        }
 
        
