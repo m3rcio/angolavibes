@@ -76,6 +76,9 @@ export async function inserirLugares(place:any,categoria_id:number,horario_abert
         //     );
         //     lugarIdInterno = result.insertId;
         //   }
+
+
+        
     // comentario
         //   if (place.photos?.length) {
         //     const fotosLimitadas = place.photos.slice(0, 5);
