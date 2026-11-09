@@ -17,6 +17,8 @@ interface LugarJoinRow extends RowDataPacket {
   preco_medio: number | null;
   imagem_url: string | null;
 }
+
+
    
   export async function buscarLugar(query:string,categoria:number,pageToken:number){
         const body:any= { 
@@ -36,7 +38,8 @@ interface LugarJoinRow extends RowDataPacket {
     
            const horario_abertura = formatTime(openPeriod?.open?.hour, openPeriod?.open?.minute);
            const horario_fechamento = formatTime(openPeriod?.close?.hour, openPeriod?.close?.minute);
-           await inserirLugares(novosLugares,categoria_id,horario_abertura,horario_fechamento);
+           await inserirLugares(place,categoria_id,horario_abertura,horario_fechamento);
+  
         }
        }
 

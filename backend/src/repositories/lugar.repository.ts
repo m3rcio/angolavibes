@@ -51,7 +51,7 @@ export async function inserirLugares(place:any,categoria_id:number,horario_abert
     
         //   let lugarIdInterno: number;
         //   if (existing.length > 0) {
-        //     lugarIdInterno = existing[0].id;
+        //     lugarIdInterno = existing[0].id; 
         //   } else {
     
         //     // inserir lugar se não existir
