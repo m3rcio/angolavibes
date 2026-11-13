@@ -15,15 +15,15 @@ interface LugarJoinRow extends RowDataPacket {
   imagem_url: string | null;
 }
 
+// Verifica se o lugar já existe
 export async function lugaresExistentesPorIds(lugares:Lugar[]){
-     // Verifica se o lugar já existe
-     let existingIds:idRow[]=[]
-for (const place of lugares){
-     [existingIds] = await db.query<idRow[]>(
-            "SELECT id FROM lugares WHERE id = ?",
-            [place.id]
+     if(lugares.length === 0) return [];
+      const googleIds=lugares.map((l)=>l.id);
+     const [existingIds] = await db.query<idRow[]>(
+            "SELECT id, google_place_id FROM lugares WHERE google_place_id IN (?)",
+            [googleIds]
           );
-        }
+        
         return existingIds
 }
 
