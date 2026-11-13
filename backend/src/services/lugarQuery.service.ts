@@ -49,4 +49,13 @@ interface LugarJoinRow extends RowDataPacket {
        return {lugaresExistentes,novosLugares}
 
     }
+
+    function montarUrlsFotos(lugar:any):string[]{
+      if (!lugar.imagem_url?.length) return [];
+
+      return lugar.photos.slice(0,5).map((photo:any)=>{
+        const photoReference = photo.name.split("/").pop();
+        return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=${photoReference}&key=${process.env.GOOGLE_MAPS_API_KEY}`
+      })
+    }
     
