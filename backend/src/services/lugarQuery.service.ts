@@ -46,7 +46,7 @@ interface LugarJoinRow extends RowDataPacket {
         }
        }
 
-       
+       return {lugaresExistentes,novosLugares}
 
     }
     
