@@ -20,7 +20,7 @@ export async function lugaresExistentesPorIds(lugares:Lugar[]){
      let existingIds:idRow[]=[]
 for (const place of lugares){
      [existingIds] = await db.query<idRow[]>(
-            "SELECT id FROM lugares WHERE google_place_id = ?",
+            "SELECT id FROM lugares WHERE id = ?",
             [place.id]
           );
         }
