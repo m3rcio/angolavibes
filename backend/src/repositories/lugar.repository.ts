@@ -34,6 +34,14 @@ export async function inserirLugares(place:any,categoria_id:number,horario_abert
                ])
 }
 
+export async function insertImagensLugar(lugarId:number,urls:string[]){
+  if(urls.length === 0) return;
+
+  const valores=urls.map((url)=>[lugarId,url]);
+
+  await db.query(`INSERT INTO lugar_imagens (lugar_id, imagem_url) VALUES ? ON DUPLICATE KEY UPDATE imagem_url = VALUES(imagem_url)`,[valores])
+}
+
         // const lugares = response.data.places || [];
     
         // for (const place of lugares) {
