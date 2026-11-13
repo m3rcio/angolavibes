@@ -20,7 +20,7 @@ interface LugarJoinRow extends RowDataPacket {
 
 
    
-  export async function buscarLugar(query:string,categoria:number,pageToken:number){
+  export async function buscarLugar(query:string,categoria:string,pageToken:string){
         const body:any= { 
       textQuery: `${query || ""} em Luanda`,
       maxResultCount: 20
@@ -28,8 +28,11 @@ interface LugarJoinRow extends RowDataPacket {
     if (pageToken) body.pageToken = pageToken;
        const googleResults= await buscarLugarnoGoogle(body)
        const lugaresExistentes= await lugaresExistentesPorIds(googleResults) 
-       const novosLugares= googleResults.filter((l:Lugar)=> !lugaresExistentes.some((e)=> e.id === l.id))
-
+       const idsExistentes = new Set(lugaresExistentes.map((e) => e.google_place_id));
+       const novosLugares= googleResults.filter((l:Lugar)=> !idsExistentes.has(l.id))
+       const mapaIds = new Map(
+  lugaresExistentes.map((e) => [e.google_place_id, e.id])
+);
        if(novosLugares.length > 0){
         
         for(const place of novosLugares){
