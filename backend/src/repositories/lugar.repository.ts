@@ -1,4 +1,4 @@
-import { RowDataPacket } from "mysql2";
+import { ResultSetHeader, RowDataPacket } from "mysql2";
 import type { idRow, Lugar} from "../models/Lugar.model";      
 import { db } from "../database/connection";
 
@@ -28,10 +28,11 @@ export async function lugaresExistentesPorIds(lugares:Lugar[]){
 }
 
 export async function inserirLugares(place:any,categoria_id:number,horario_abertura:string | null,horario_fechamento:string | null){
-  await db.query(` INSERT INTO lugares (google_place_id, nome, endereco, latitude, longitude,  telefone, preco_medio, horario_abertura horario_fechamento, categoria_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+ const [result]= await db.execute<ResultSetHeader>(` INSERT INTO lugares (google_place_id, nome, endereco, latitude, longitude,  telefone, preco_medio, horario_abertura horario_fechamento, categoria_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
      [place.id,place.displayName?.text || "",place.formattedAddress || "",place.location?.latitude || null,place.location?.longitude || null,
       place.nationalPhoneNumber || "",place.priceLevel || null,horario_abertura,horario_fechamento,categoria_id
                ])
+               return result.insertId;
 }
 
 export async function insertImagensLugar(lugarId:number,urls:string[]){

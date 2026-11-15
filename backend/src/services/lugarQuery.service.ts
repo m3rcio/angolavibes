@@ -43,6 +43,8 @@ interface LugarJoinRow extends RowDataPacket {
            const horario_fechamento = formatTime(openPeriod?.close?.hour, openPeriod?.close?.minute);
            await inserirLugares(place,categoria_id,horario_abertura,horario_fechamento);
   
+           const lugarId= await inserirLugares(place,categoria_id,horario_abertura,horario_fechamento);
+           await inserirImagensLugar(lugarId,montarUrlsFotos(place))
         }
        }
 
