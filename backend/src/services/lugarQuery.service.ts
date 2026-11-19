@@ -60,4 +60,29 @@ interface LugarJoinRow extends RowDataPacket {
         return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=${photoReference}&key=${process.env.GOOGLE_MAPS_API_KEY}`
       })
     }
+
+   function agruparLugares(rows: LugarJoinRow[]) {
+  const mapa = new Map<number, any>();
+
+  for (const row of rows) {
+    if (!mapa.has(row.id)) {
+      mapa.set(row.id, {
+        id: row.id,
+        nome: row.nome,
+        descricao: row.descricao,
+        google_place_id: row.google_place_id,
+        endereco: row.endereco,
+        latitude: row.latitude,
+        longitude: row.longitude,
+        telefone: row.telefone,
+        preco_medio: row.preco_medio,
+        imagens: [],
+      });
+    }
+    if (row.imagem_url) mapa.get(row.id).imagens.push(row.imagem_url);
+  }
+
+  return Array.from(mapa.values());
+}
+        
     

@@ -43,6 +43,19 @@ export async function insertImagensLugar(lugarId:number,urls:string[]){
   await db.query(`INSERT INTO lugar_imagens (lugar_id, imagem_url) VALUES ? ON DUPLICATE KEY UPDATE imagem_url = VALUES(imagem_url)`,[valores])
 }
 
+export async function buscarLugaresPorNome(query:string){
+  const [rows]=await db.query<LugarJoinRow[]>(`SELECT l.id, l.nome, l.descricao, l.google_place_id, l.endereco,
+            l.latitude, l.longitude, l.telefone, l.preco_medio,
+            li.imagem_url
+     FROM lugares l
+     LEFT JOIN lugar_imagens li ON li.lugar_id = l.id
+     WHERE l.nome LIKE ?`,
+    [`%${query}%`])
+  return rows;
+}
+
+
+
         // const lugares = response.data.places || [];
     
         // for (const place of lugares) {
