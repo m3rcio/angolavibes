@@ -1,6 +1,6 @@
 import { buscarLugarnoGoogle } from "./googlePlaces.service";
 import type { Lugar } from "../models/Lugar.model";
-import { inserirLugares, lugaresExistentesPorIds } from "../repositories/lugar.repository";
+import { buscarLugaresPorNome, inserirImagensLugar, inserirLugares, lugaresExistentesPorIds } from "../repositories/lugar.repository";
 import { RowDataPacket } from "mysql2";
 import { mapCategoria } from "../controllers/utils/mapCategoria";
 import { formatTime } from "../controllers/utils/formatLugarTime";
@@ -48,8 +48,9 @@ interface LugarJoinRow extends RowDataPacket {
         }
        }
 
-       return {lugaresExistentes,novosLugares}
 
+       const rows=await buscarLugaresPorNome(query)
+       return agruparLugares(rows), {lugaresExistentes,novosLugares}
     }
 
     function montarUrlsFotos(lugar:any):string[]{

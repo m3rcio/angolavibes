@@ -35,7 +35,7 @@ export async function inserirLugares(place:any,categoria_id:number,horario_abert
                return result.insertId;
 }
 
-export async function insertImagensLugar(lugarId:number,urls:string[]){
+export async function inserirImagensLugar(lugarId:number,urls:string[]){
   if(urls.length === 0) return;
 
   const valores=urls.map((url)=>[lugarId,url]);
